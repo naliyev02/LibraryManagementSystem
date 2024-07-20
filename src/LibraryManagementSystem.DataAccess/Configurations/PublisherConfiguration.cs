@@ -8,6 +8,13 @@ public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
 {
     public void Configure(EntityTypeBuilder<Publisher> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).UseIdentityColumn();
+
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
+        builder.Property(x => x.Address).IsRequired().HasMaxLength(255);
+        builder.Property(x => x.ContactNumber).IsRequired().HasMaxLength(255);
+
+        builder.HasOne(x => x.Book).WithOne(x => x.Publisher).HasForeignKey<Book>(x => x.PublisherId);
     }
 }

@@ -7,5 +7,5 @@ public class Genre : BaseEntity
     public string Name { get; set; }
     public int CategoryId { get; set; }
     public Category Category { get; set; }
-    List<BookGenre> BookGenres { get; set; }
+    public List<BookGenre> BookGenres { get; set; }
 }

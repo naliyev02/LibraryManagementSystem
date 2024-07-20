@@ -1,3 +1,12 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using LibraryManagementSystem.DataAccess.Contexts;
+using LibraryManagementSystem.Business.Mappers;
+using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
+using LibraryManagementSystem.DataAccess.Repositories.Implementations;
+using LibraryManagementSystem.Business.Services.Implementations;
+using LibraryManagementSystem.Business.Services.Interfaces;
+
 namespace LibraryManagementSystem.API
 {
     public class Program
@@ -6,16 +15,21 @@ namespace LibraryManagementSystem.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
+            builder.Services.AddScoped<ICoverTypeRepository, CoverTypeRepository>();
+            builder.Services.AddScoped<ICoverTypeService, CoverTypeService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -24,6 +38,7 @@ namespace LibraryManagementSystem.API
 
             app.UseHttpsRedirection();
 
+            //app.UseAuthentication();
             app.UseAuthorization();
 
 

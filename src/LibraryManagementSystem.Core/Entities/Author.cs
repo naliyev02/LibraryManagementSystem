@@ -8,5 +8,5 @@ public class Author : BaseEntity
     public string LastName { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string Nationality { get; set; }
-    List<BookAuthor> BookAuthors { get; set; }
+    public List<BookAuthor> BookAuthors { get; set; }
 }

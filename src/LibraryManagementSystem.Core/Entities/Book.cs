@@ -6,8 +6,6 @@ public class Book : BaseEntity
 {
     public string Title { get; set; }
     public string ISBN { get; set; }
-    //public int AuthorId { get; set; }
-    //public Author Author { get; set; }
     public int CoverTypeId { get; set; }
     public CoverType CoverType { get; set; }
     public int LanguageId { get; set; }
@@ -17,7 +15,7 @@ public class Book : BaseEntity
     public Publisher Publisher { get; set; }
     public DateTime PublishedDate { get; set; }
     public int CopiesAvailable { get; set; }
-    List<BookAuthor> BookAuthors { get; set; }
-    List<BookGenre> BookGenres { get; set; }
+    public List<BookAuthor> BookAuthors { get; set; }
+    public List<BookGenre> BookGenres { get; set; }
 }
 

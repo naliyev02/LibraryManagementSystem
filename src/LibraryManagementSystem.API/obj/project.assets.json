@@ -184,12 +184,12 @@
         },
         "compile": {
           "ref/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "runtime": {
           "lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "runtimeTargets": {
@@ -667,12 +667,12 @@
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Microsoft.OpenApi.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.OpenApi.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         }
       },
@@ -744,12 +744,12 @@
         },
         "compile": {
           "lib/net6.0/Swashbuckle.AspNetCore.Swagger.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "runtime": {
           "lib/net6.0/Swashbuckle.AspNetCore.Swagger.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "frameworkReferences": [
@@ -763,12 +763,12 @@
         },
         "compile": {
           "lib/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "runtime": {
           "lib/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         }
       },
@@ -776,12 +776,12 @@
         "type": "package",
         "compile": {
           "lib/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "runtime": {
           "lib/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
-            "related": ".pdb;.xml"
+            "related": ".xml;.pdb"
           }
         },
         "frameworkReferences": [
@@ -3199,11 +3199,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\LibraryManagementSystem.API.csproj",
+      "projectUniqueName": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\LibraryManagementSystem.API.csproj",
       "projectName": "LibraryManagementSystem.API",
-      "projectPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\LibraryManagementSystem.API.csproj",
+      "projectPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\LibraryManagementSystem.API.csproj",
       "packagesPath": "C:\\Users\\Nicat\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\obj\\",
+      "outputPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Nicat\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3220,8 +3220,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj": {
-              "projectPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj"
+            "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj": {
+              "projectPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj"
             }
           }
         }

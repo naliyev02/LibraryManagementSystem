@@ -1,0 +1,17 @@
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\bin\Debug\net6.0\LibraryManagementSystem.DataAccess.deps.json
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\bin\Debug\net6.0\LibraryManagementSystem.DataAccess.runtimeconfig.json
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\bin\Debug\net6.0\LibraryManagementSystem.DataAccess.dll
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\bin\Debug\net6.0\LibraryManagementSystem.DataAccess.pdb
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\bin\Debug\net6.0\LibraryManagementSystem.Core.dll
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\bin\Debug\net6.0\LibraryManagementSystem.Core.pdb
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.csproj.AssemblyReference.cache
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.AssemblyInfoInputs.cache
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.AssemblyInfo.cs
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.csproj.CopyComplete
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.dll
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\refint\LibraryManagementSystem.DataAccess.dll
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.pdb
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\LibraryManagementSystem.DataAccess.genruntimeconfig.cache
+C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.DataAccess\obj\Debug\net6.0\ref\LibraryManagementSystem.DataAccess.dll

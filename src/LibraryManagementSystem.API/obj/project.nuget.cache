@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QlqygQvRd0rV45HqYWiN4NtB4JZeXICgbIzk6yGmgjKQW7Wp0XW658pN094+nQe27/qpskDeGNbpRNyx7QrpvQ==",
+  "dgSpecHash": "Ht06487czr980TXtz3oR3Kd4TfFRq0N5WQTVJ9zqBJssGQOAP2pQU0LRnzMp7aTsJop1r+d3GnS6knnYA13m/Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\LibraryManagementSystem.API.csproj",
+  "projectFilePath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.API\\LibraryManagementSystem.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nicat\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Nicat\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

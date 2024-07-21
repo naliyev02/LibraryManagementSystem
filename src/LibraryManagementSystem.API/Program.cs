@@ -1,11 +1,11 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using LibraryManagementSystem.DataAccess.Contexts;
+using LibraryManagementSystem.API.Extensions;
 using LibraryManagementSystem.Business.Mappers;
-using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
-using LibraryManagementSystem.DataAccess.Repositories.Implementations;
 using LibraryManagementSystem.Business.Services.Implementations;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using LibraryManagementSystem.DataAccess.Contexts;
+using LibraryManagementSystem.DataAccess.Repositories.Implementations;
+using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.API
 {
@@ -25,6 +25,9 @@ namespace LibraryManagementSystem.API
             builder.Services.AddScoped<ICoverTypeRepository, CoverTypeRepository>();
             builder.Services.AddScoped<ICoverTypeService, CoverTypeService>();
 
+            builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+            builder.Services.AddScoped<ILanguageService, LanguageService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -37,6 +40,8 @@ namespace LibraryManagementSystem.API
             }
 
             app.UseHttpsRedirection();
+
+            app.AddExceptionHandlerService();
 
             //app.UseAuthentication();
             app.UseAuthorization();

@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LibraryManagementSystem.Business\LibraryManagementSystem.Business.csproj" />
   </ItemGroup>
 

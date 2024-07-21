@@ -12,6 +12,6 @@ public class LanguageConfiguration : IEntityTypeConfiguration<Language>
         builder.Property(x => x.Id).UseIdentityColumn();
 
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
-        builder.HasOne(x => x.Book).WithOne(y => y.Language).HasForeignKey<Book>(y => y.LanguageId);
+        builder.HasMany(x => x.Books).WithOne(y => y.Language).HasForeignKey(y => y.LanguageId);
     }
 }

@@ -12,6 +12,6 @@ public class CoverTypeConfiguration : IEntityTypeConfiguration<CoverType>
         builder.Property(x => x.Id).UseIdentityColumn();
 
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
-        builder.HasOne(x => x.Book).WithOne(y => y.CoverType).HasForeignKey<Book>(y => y.CoverTypeId);
+        builder.HasMany(x => x.Books).WithOne(y => y.CoverType).HasForeignKey(y => y.CoverTypeId);
     }
 }

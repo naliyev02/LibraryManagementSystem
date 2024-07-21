@@ -1,4 +1,6 @@
-﻿namespace LibraryManagementSystem.Business.DTOs.LanguageDtos;
+﻿using LibraryManagementSystem.Core.Entities;
+
+namespace LibraryManagementSystem.Business.DTOs.LanguageDtos;
 
 public class LanguageGetDto
 {

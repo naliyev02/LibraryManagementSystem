@@ -5,5 +5,5 @@ namespace LibraryManagementSystem.Core.Entities;
 public class Language : BaseEntity
 {
     public string Name { get; set; }
-    public Book Book { get; set; }
+    public List<Book> Books { get; set; }
 }

@@ -28,6 +28,9 @@ namespace LibraryManagementSystem.API
             builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
             builder.Services.AddScoped<ILanguageService, LanguageService>();
 
+            builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+            builder.Services.AddScoped<IPublisherService, PublisherService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

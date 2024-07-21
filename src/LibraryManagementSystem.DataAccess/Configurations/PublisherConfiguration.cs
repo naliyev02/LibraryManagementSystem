@@ -15,6 +15,6 @@ public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
         builder.Property(x => x.Address).IsRequired().HasMaxLength(255);
         builder.Property(x => x.ContactNumber).IsRequired().HasMaxLength(255);
 
-        builder.HasOne(x => x.Book).WithOne(x => x.Publisher).HasForeignKey<Book>(x => x.PublisherId);
+        builder.HasMany(x => x.Books).WithOne(x => x.Publisher).HasForeignKey(x => x.PublisherId);
     }
 }

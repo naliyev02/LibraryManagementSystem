@@ -3,6 +3,7 @@ using LibraryManagementSystem.Core.Entities.Common;
 using LibraryManagementSystem.DataAccess.Contexts;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace LibraryManagementSystem.DataAccess.Repositories.Implementations;
@@ -15,27 +16,26 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _context = context;
     }
 
-    public IQueryable<T> GetAll()
+    public IQueryable<T> GetAll(params Func<IQueryable<T>, IIncludableQueryable<T, object>>[] includeProperties)
     {
-        var query = _context.Set<T>().AsQueryable();
+        IQueryable<T> query = _context.Set<T>();
+        query = IncludeProperties(query, includeProperties);
 
         return query;
     }
 
-    public IQueryable<T> GetFiltered(Expression<Func<T, bool>> expression)
+    public IQueryable<T> GetFiltered(Expression<Func<T, bool>> expression, params Func<IQueryable<T>, IIncludableQueryable<T, object>>[] includeProperties)
     {
         var query = _context.Set<T>().AsQueryable();
-        
+        query = IncludeProperties(query, includeProperties);
+
         return query.Where(expression);
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T> GetByIdAsync(int id, params Func<IQueryable<T>, IIncludableQueryable<T, object>>[] includeProperties)
     {
         var query = _context.Set<T>().AsQueryable();
-        //foreach (var include in includes)
-        //{
-        //    query = query.Include(include);
-        //}
+        query = IncludeProperties(query, includeProperties);
 
         return await query.SingleOrDefaultAsync(x => x.Id == id);
     }
@@ -47,12 +47,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
     public void Update(T entity)
     {
-        var dbEntity = _context.Set<T>().Find(entity.Id);
-        if (dbEntity != null)
-        {
-            _context.Entry(dbEntity).CurrentValues.SetValues(entity);
-            //_context.SaveChanges();
-        }
+        _context.Entry<T>(entity).State = EntityState.Modified;
     }
 
     public void Delete(T entity)
@@ -60,53 +55,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _context.Set<T>().Remove(entity);
     }
 
-    //public void Update(T entity, params string[] includes)
-    //{
-    //    var query = _context.Set<T>().AsQueryable();
-    //    foreach (var include in includes)
-    //    {
-    //        query = query.Include(include);
-    //    }
-
-    //    var entityToUpdate = query.FirstOrDefault(); // Or use FirstOrDefault if you expect only one entity
-
-    //    if (entityToUpdate != null)
-    //    {
-    //        // Update the properties of the retrieved entity
-    //        _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
-
-    //        // Save changes to the database
-    //        _context.SaveChanges();
-    //    }
-    //}
-
     public void SoftDelete(T entity)
     {
         entity.IsDeleted = true;
         Update(entity);
     }
 
-    //public async Task UpdateAsync(T entity)
-    //{
-    //    var existingBook = await _context.Set<T>().FirstOrDefaultAsync(b => b.Id == entity.Id);
-
-    //    if (existingBook != null)
-    //    {
-    //        // Əsas məlumatları yeniləyin
-    //        existingBook = entity;
-
-    //        // Əlaqəli cədvəldəki məlumatları yeniləyin
-    //        if (existingBook.AuthorId != updatedBook.AuthorId)
-    //        {
-    //            existingBook.AuthorId = updatedBook.AuthorId;
-    //            existingBook.Author = await _context.Authors.FindAsync(updatedBook.AuthorId);
-    //        }
-
-    //        // Verilənləri kontekstə qeyd edin
-    //        _context.Books.Update(existingBook);
-    //        await _context.SaveChangesAsync();
-    //    }
-    //}
+    
 
     public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression, params string[] includes)
     {
@@ -119,6 +74,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     }
 
     public async Task<int> SaveAsync()
-        => await _context.SaveChangesAsync(); //Bu sekilde de yazmaq olur
+    {
+        return await _context.SaveChangesAsync(); 
+    }
 
+    private IQueryable<T> IncludeProperties(IQueryable<T> query, params Func<IQueryable<T>, IIncludableQueryable<T, object>>[] includeProperties)
+    {
+        foreach (var includeProperty in includeProperties)
+        {
+            query = includeProperty(query);
+        }
+        return query;
+    }
 }

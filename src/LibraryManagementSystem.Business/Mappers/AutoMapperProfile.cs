@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.Business.DTOs.BookDtos;
 using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
 using LibraryManagementSystem.Business.DTOs.LanguageDtos;
 using LibraryManagementSystem.Business.DTOs.PublisherDtos;
@@ -12,13 +13,16 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<CoverType, CoverTypeGetDto>().ReverseMap();
         CreateMap<CoverType, CoverTypePostDto>().ReverseMap();
-        //CreateMap<CoverType, CoverTypePutDto>().ReverseMap();
+        CreateMap<CoverType, CoverTypePutDto>().ReverseMap();
 
         CreateMap<Language, LanguageGetDto>().ReverseMap();
         CreateMap<Language, LanguagePostDto>().ReverseMap();
+        CreateMap<Language, LanguagePutDto>().ReverseMap();
 
         CreateMap<Publisher, PublisherGetDto>().ReverseMap();
-        CreateMap<Book, PublisherBookGetDtos>().ReverseMap();
         CreateMap<Publisher, PublisherPostDto>().ReverseMap();
+        CreateMap<Publisher, PublisherPutDto>().ReverseMap();
+
+        CreateMap<Book, BookGetDto>().ReverseMap();
     }
 }

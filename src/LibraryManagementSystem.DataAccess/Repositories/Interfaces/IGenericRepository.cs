@@ -1,12 +1,13 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace LibraryManagementSystem.DataAccess.Repositories.Interfaces;
 
 public interface IGenericRepository<T>
 {
-    IQueryable<T> GetAll();
-    IQueryable<T> GetFiltered(Expression<Func<T, bool>> expression);
-    Task<T> GetByIdAsync(int id);
+    IQueryable<T> GetAll(params Func<IQueryable<T>, IIncludableQueryable<T, object>>[] includeProperties);
+    IQueryable<T> GetFiltered(Expression<Func<T, bool>> expression, params Func<IQueryable<T>, IIncludableQueryable<T, object>>[] includeProperties);
+    Task<T> GetByIdAsync(int id, params Func<IQueryable<T>, IIncludableQueryable<T, object>>[] includeProperties);
     Task CreateAsync(T entity);
     void Update(T entity);
     void Delete(T entity);

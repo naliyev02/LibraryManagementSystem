@@ -69,7 +69,7 @@ public class LanguageService : ILanguageService
 
         await _repository.SaveAsync();
 
-        return new GenericResponseDto(200, "Dil uğurla yeniləndi edildi");
+        return new GenericResponseDto(200, "Dil uğurla yeniləndi");
     }
 
     public async Task<GenericResponseDto> DeleteAsync(int id)

@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj": {}
+    "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj": {
+    "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj",
         "projectName": "LibraryManagementSystem.Core",
-        "projectPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj",
+        "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj",
         "packagesPath": "C:\\Users\\Nicat\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\obj\\",
         "projectStyle": "PackageReference",

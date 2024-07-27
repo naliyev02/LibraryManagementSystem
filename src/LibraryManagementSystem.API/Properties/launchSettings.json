@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "LibraryManagementSystem.API": {
+    "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
@@ -29,3 +29,5 @@
     }
   }
 }
+
+//LibraryManagementSystem.API

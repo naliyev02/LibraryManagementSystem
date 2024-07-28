@@ -28,9 +28,11 @@ public class AutoMapperProfile : Profile
         CreateMap<Book, BookGetDto>().ReverseMap();
 
         CreateMap<BookAuthor, BookAuthorGetDto>().ReverseMap();
+        CreateMap<BookAuthor, BookAuthorPostDto>().ReverseMap();
 
         CreateMap<Author, AuthorGetDto>().ReverseMap();
         CreateMap<Author, AuthorGetByIdDto>().ReverseMap();
+        CreateMap<Author, AuthorPostDto>().ReverseMap();
 
 
     }

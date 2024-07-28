@@ -34,6 +34,8 @@ namespace LibraryManagementSystem.API
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<IAuthorService, AuthorService>();
 
+            builder.Services.AddScoped<IBookAuthorRepository, BookAuthorRepository>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

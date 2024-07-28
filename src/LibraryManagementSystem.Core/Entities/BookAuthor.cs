@@ -1,6 +1,8 @@
-﻿namespace LibraryManagementSystem.Core.Entities;
+﻿using LibraryManagementSystem.Core.Entities.Common;
 
-public class BookAuthor
+namespace LibraryManagementSystem.Core.Entities;
+
+public class BookAuthor : BaseEntity
 {
     //public int Id { get; set; }
     public int BookId { get; set; }

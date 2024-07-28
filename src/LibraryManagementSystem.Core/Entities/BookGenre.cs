@@ -1,6 +1,8 @@
-﻿namespace LibraryManagementSystem.Core.Entities;
+﻿using LibraryManagementSystem.Core.Entities.Common;
 
-public class BookGenre
+namespace LibraryManagementSystem.Core.Entities;
+
+public class BookGenre : BaseEntity
 {
     //public int Id { get; set; }
     public int BookId { get; set; }

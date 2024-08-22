@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Business.DTOs.AuthorDtos;
 using LibraryManagementSystem.Business.DTOs.BookAuthorDtos;
 using LibraryManagementSystem.Business.DTOs.BookDtos;
+using LibraryManagementSystem.Business.DTOs.CategoryDtos;
 using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
 using LibraryManagementSystem.Business.DTOs.LanguageDtos;
 using LibraryManagementSystem.Business.DTOs.PublisherDtos;
@@ -34,6 +35,9 @@ public class AutoMapperProfile : Profile
         CreateMap<Author, AuthorGetByIdDto>().ReverseMap();
         CreateMap<Author, AuthorPostDto>().ReverseMap();
 
+        CreateMap<Category, CategoryGetDto>().ReverseMap();
+        CreateMap<Category, CategoryPostDto>().ReverseMap();
+        CreateMap<Category, CategoryPutDto>().ReverseMap();
 
     }
 }

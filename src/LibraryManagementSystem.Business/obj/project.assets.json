@@ -2690,9 +2690,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
+      "projectUniqueName": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
       "projectName": "LibraryManagementSystem.Business",
-      "projectPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
+      "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
       "packagesPath": "C:\\Users\\Nicat\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\obj\\",
       "projectStyle": "PackageReference",
@@ -2711,8 +2711,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj"
+            "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj"
             }
           }
         }

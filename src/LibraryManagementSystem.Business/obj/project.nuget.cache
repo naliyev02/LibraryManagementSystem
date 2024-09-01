@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FYltQjJ7iBZ5YduqmvrsEA+POUCTc0ADePnrMKDwPOMEeGirnTphPP1hvO/p3wR5KOpq2SV6VjLZ0TkZBwXa7g==",
+  "dgSpecHash": "2xTMZvWlwcu1X8IViYFwbT7zW8r7e84b8JkqlTMhYVtpdHQGsTpWYoQEIQUVpsoWZ/6QRor08h49BnEcem4uKg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
+  "projectFilePath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nicat\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Nicat\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

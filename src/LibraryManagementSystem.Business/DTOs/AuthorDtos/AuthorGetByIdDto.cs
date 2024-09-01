@@ -9,5 +9,5 @@ public class AuthorGetByIdDto
     public string LastName { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string Nationality { get; set; }
-    public List<BookAuthorGetDto> BookAuthors { get; set; }
+    public List<AuthorBookGetDto> Books { get; set; }
 }

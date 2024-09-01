@@ -39,6 +39,9 @@ namespace LibraryManagementSystem.API
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+            builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+            builder.Services.AddScoped<IGenreService, GenreService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

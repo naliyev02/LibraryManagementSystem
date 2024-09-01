@@ -2,8 +2,10 @@
 using LibraryManagementSystem.Business.DTOs.AuthorDtos;
 using LibraryManagementSystem.Business.DTOs.BookAuthorDtos;
 using LibraryManagementSystem.Business.DTOs.BookDtos;
+using LibraryManagementSystem.Business.DTOs.BookGenreDtos;
 using LibraryManagementSystem.Business.DTOs.CategoryDtos;
 using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
+using LibraryManagementSystem.Business.DTOs.GenreDtos;
 using LibraryManagementSystem.Business.DTOs.LanguageDtos;
 using LibraryManagementSystem.Business.DTOs.PublisherDtos;
 using LibraryManagementSystem.Core.Entities;
@@ -28,16 +30,25 @@ public class AutoMapperProfile : Profile
 
         CreateMap<Book, BookGetDto>().ReverseMap();
 
-        CreateMap<BookAuthor, BookAuthorGetDto>().ReverseMap();
+        CreateMap<BookAuthor, AuthorBookGetDto>().ReverseMap();
         CreateMap<BookAuthor, BookAuthorPostDto>().ReverseMap();
 
         CreateMap<Author, AuthorGetDto>().ReverseMap();
-        CreateMap<Author, AuthorGetByIdDto>().ReverseMap();
+        CreateMap<Author, AuthorGetByIdDto>().ForMember(x => x.Books, y => y.MapFrom(x => x.BookAuthors)).ReverseMap();
         CreateMap<Author, AuthorPostDto>().ReverseMap();
 
         CreateMap<Category, CategoryGetDto>().ReverseMap();
         CreateMap<Category, CategoryPostDto>().ReverseMap();
         CreateMap<Category, CategoryPutDto>().ReverseMap();
+
+        CreateMap<Genre, GenreGetDto>().ReverseMap();
+        CreateMap<Genre, GenreGetByIdDto>().ForMember(x => x.Books, y => y.MapFrom(x => x.BookGenres)).ReverseMap();
+        CreateMap<Genre, GenrePostDto>().ReverseMap();
+
+
+        CreateMap<BookGenre, GenreBookGetDto>().ReverseMap();
+
+
 
     }
 }

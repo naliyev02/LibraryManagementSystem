@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Business.DTOs.LanguageDtos;
+﻿using LibraryManagementSystem.Business.DTOs.BookDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +6,11 @@ namespace LibraryManagementSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LanguagesController : ControllerBase
+    public class BooksController : ControllerBase
     {
-        private readonly ILanguageService _service;
+        private readonly IBookService _service;
 
-        public LanguagesController(ILanguageService service)
+        public BooksController(IBookService service)
         {
             _service = service;
         }
@@ -28,16 +28,16 @@ namespace LibraryManagementSystem.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(LanguagePostDto languagePostDto)
+        public async Task<IActionResult> CreateAsync(BookPostDto bookPostDto)
         {
-            var response = await _service.CreateAsync(languagePostDto);
+            var response = await _service.CreateAsync(bookPostDto);
             return StatusCode(response.StatusCode, response.Message);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(LanguagePutDto languagePutDto)
+        public async Task<IActionResult> UpdateAsync(BookPutDto bookPutDto)
         {
-            var response = await _service.UpdateAsync(languagePutDto);
+            var response = await _service.UpdateAsync(bookPutDto);
             return StatusCode(response.StatusCode, response.Message);
         }
 

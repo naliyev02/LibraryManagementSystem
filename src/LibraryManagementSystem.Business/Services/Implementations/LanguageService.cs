@@ -33,6 +33,9 @@ public class LanguageService : ILanguageService
     {
         var language = await _repository.GetByIdAsync(id);
 
+        if (language is null)
+            throw new GenericNotFoundException("Dil tapılmadı");
+
         var languageDto = _mapper.Map<LanguageGetDto>(language);
 
         return languageDto;

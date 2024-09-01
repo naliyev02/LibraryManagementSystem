@@ -31,15 +31,15 @@ public class PublisherService : IPublisherService
         return publisherDtos;
     }
 
-    public async Task<PublisherGetDto> GetByIdAsync(int id)
+    public async Task<PublisherGetByIdDto> GetByIdAsync(int id)
     {
         var publisher = await _repository.GetByIdAsync(id,
             p => p.Include(pb => pb.Books));
 
         if (publisher is null)
-            throw new GenericNotFoundException("Nəşriyyatçı taplmadı"); 
+            throw new GenericNotFoundException("Nəşriyyatçı tapılmadı"); 
 
-        var publiherDto = _mapper.Map<PublisherGetDto>(publisher);
+        var publiherDto = _mapper.Map<PublisherGetByIdDto>(publisher);
 
         return publiherDto;
     }

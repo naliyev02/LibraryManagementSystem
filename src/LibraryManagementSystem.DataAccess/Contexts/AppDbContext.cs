@@ -26,6 +26,8 @@ public class AppDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(BookConfiguration).Assembly);
 
+        modelBuilder.Entity<Book>().HasQueryFilter(p => !p.IsDeleted);
+
         base.OnModelCreating(modelBuilder);
     }
 

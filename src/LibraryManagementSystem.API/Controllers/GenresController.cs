@@ -1,5 +1,4 @@
-﻿using LibraryManagementSystem.Business.DTOs.AuthorDtos;
-using LibraryManagementSystem.Business.DTOs.GenreDtos;
+﻿using LibraryManagementSystem.Business.DTOs.GenreDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

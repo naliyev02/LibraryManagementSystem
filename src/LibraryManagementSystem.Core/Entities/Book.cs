@@ -15,7 +15,7 @@ public class Book : BaseEntity
     public Publisher Publisher { get; set; }
     public DateTime PublishedDate { get; set; }
     public int CopiesAvailable { get; set; }
-    public List<BookAuthor> Authors { get; set; }
-    public List<BookGenre> Genres { get; set; }
+    public List<BookAuthor> BookAuthors { get; set; }
+    public List<BookGenre> BookGenres { get; set; }
 }
 

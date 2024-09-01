@@ -33,6 +33,9 @@ public class CategoryService : ICategoryService
     {
         var category = await _repository.GetByIdAsync(id);
 
+        if (category is null)
+            throw new GenericNotFoundException("Kategoriya tapılmadı");
+
         var categoryDto = _mapper.Map<CategoryGetDto>(category);
 
         return categoryDto;

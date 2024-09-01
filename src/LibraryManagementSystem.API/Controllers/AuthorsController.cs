@@ -1,6 +1,4 @@
 ﻿using LibraryManagementSystem.Business.DTOs.AuthorDtos;
-using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
-using LibraryManagementSystem.Business.DTOs.PublisherDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

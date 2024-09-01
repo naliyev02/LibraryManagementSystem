@@ -38,7 +38,7 @@ public class GenreService : IGenreService
             a => a.Include(ba => ba.BookGenres).ThenInclude(b => b.Book));
 
         if (genre is null)
-            throw new GenericNotFoundException("Janr taplmadı");
+            throw new GenericNotFoundException("Janr tapılmadı");
 
         var genreDto = _mapper.Map<GenreGetByIdDto>(genre);
 

@@ -25,16 +25,30 @@ public class AutoMapperProfile : Profile
         CreateMap<Language, LanguagePutDto>().ReverseMap();
 
         CreateMap<Publisher, PublisherGetDto>().ReverseMap();
+        CreateMap<Publisher, PublisherGetByIdDto>().ReverseMap();
         CreateMap<Publisher, PublisherPostDto>().ReverseMap();
         CreateMap<Publisher, PublisherPutDto>().ReverseMap();
 
         CreateMap<Book, BookGetDto>().ReverseMap();
+        CreateMap<Book, BookGetByIdDto>()
+            .ForMember(x => x.Authors, y => y.MapFrom(x => x.BookAuthors))
+            .ForMember(x => x.Genres, y => y.MapFrom(x => x.BookGenres))
+            .ReverseMap();
+        CreateMap<Book, BookPostDto>()
+            .ForMember(x => x.Authors, y => y.MapFrom(x => x.BookAuthors))
+            .ForMember(x => x.Genres, y => y.MapFrom(x => x.BookGenres))
+            .ReverseMap();
+        CreateMap<Book, BookPutDto>().ReverseMap();
 
         CreateMap<BookAuthor, AuthorBookGetDto>().ReverseMap();
+        CreateMap<BookAuthor, AuthorBookPostDto>().ReverseMap();
+        CreateMap<BookAuthor, BookAuthorGetDto>().ReverseMap();
         CreateMap<BookAuthor, BookAuthorPostDto>().ReverseMap();
 
         CreateMap<Author, AuthorGetDto>().ReverseMap();
-        CreateMap<Author, AuthorGetByIdDto>().ForMember(x => x.Books, y => y.MapFrom(x => x.BookAuthors)).ReverseMap();
+        CreateMap<Author, AuthorGetByIdDto>()
+            .ForMember(x => x.Books, y => y.MapFrom(x => x.BookAuthors))
+            .ReverseMap();
         CreateMap<Author, AuthorPostDto>().ReverseMap();
 
         CreateMap<Category, CategoryGetDto>().ReverseMap();
@@ -42,13 +56,14 @@ public class AutoMapperProfile : Profile
         CreateMap<Category, CategoryPutDto>().ReverseMap();
 
         CreateMap<Genre, GenreGetDto>().ReverseMap();
-        CreateMap<Genre, GenreGetByIdDto>().ForMember(x => x.Books, y => y.MapFrom(x => x.BookGenres)).ReverseMap();
+        CreateMap<Genre, GenreGetByIdDto>()
+            .ForMember(x => x.Books, y => y.MapFrom(x => x.BookGenres))
+            .ReverseMap();
         CreateMap<Genre, GenrePostDto>().ReverseMap();
 
-
         CreateMap<BookGenre, GenreBookGetDto>().ReverseMap();
-
-
+        CreateMap<BookGenre, BookGenreGetDto>().ReverseMap();
+        CreateMap<BookGenre, BookGenrePostDto>().ReverseMap();
 
     }
 }

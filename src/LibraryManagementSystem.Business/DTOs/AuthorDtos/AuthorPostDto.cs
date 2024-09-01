@@ -8,5 +8,5 @@ public class AuthorPostDto
     public string LastName { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string Nationality { get; set; }
-    public List<BookAuthorPostDto> BookAuthors { get; set; }
+    public List<AuthorBookPostDto> BookAuthors { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagementSystem.Business.DTOs.BookAuthorDtos;
 
-public class BookAuthorPostDto
+public class AuthorBookPostDto
 {
-    public int AuthorId { get; set; }
+    public int BookId { get; set; }
 }

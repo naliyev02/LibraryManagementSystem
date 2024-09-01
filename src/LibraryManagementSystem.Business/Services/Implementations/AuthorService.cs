@@ -38,7 +38,7 @@ public class AuthorService : IAuthorService
             a => a.Include(ba => ba.BookAuthors).ThenInclude(b => b.Book));
 
         if (author is null)
-            throw new GenericNotFoundException("Müəllif taplmadı");
+            throw new GenericNotFoundException("Müəllif tapılmadı");
 
         var authorDto = _mapper.Map<AuthorGetByIdDto>(author);
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
+using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
@@ -30,6 +31,9 @@ public class CoverTypeService : ICoverTypeService
     public async Task<CoverTypeGetDto> GetByIdAsync(int id)
     {
         var coverType = await _repository.GetByIdAsync(id);
+
+        if (coverType is null)
+            throw new GenericNotFoundException("Cover Type tapılmadı");
 
         var coverTypeDto = _mapper.Map<CoverTypeGetDto>(coverType);
 

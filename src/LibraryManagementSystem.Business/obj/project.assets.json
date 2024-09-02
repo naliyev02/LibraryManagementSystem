@@ -102,12 +102,12 @@
         },
         "compile": {
           "lib/net6.0/MailKit.dll": {
-            "related": ".dll.config;.xml;.pdb"
+            "related": ".dll.config;.pdb;.xml"
           }
         },
         "runtime": {
           "lib/net6.0/MailKit.dll": {
-            "related": ".dll.config;.xml;.pdb"
+            "related": ".dll.config;.pdb;.xml"
           }
         }
       },
@@ -201,12 +201,12 @@
         },
         "compile": {
           "ref/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "related": ".xml;.pdb"
+            "related": ".pdb;.xml"
           }
         },
         "runtime": {
           "lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "related": ".xml;.pdb"
+            "related": ".pdb;.xml"
           }
         },
         "runtimeTargets": {
@@ -707,12 +707,12 @@
         },
         "compile": {
           "lib/net6.0/MimeKit.dll": {
-            "related": ".dll.config;.xml;.pdb"
+            "related": ".dll.config;.pdb;.xml"
           }
         },
         "runtime": {
           "lib/net6.0/MimeKit.dll": {
-            "related": ".dll.config;.xml;.pdb"
+            "related": ".dll.config;.pdb;.xml"
           }
         }
       },
@@ -2953,11 +2953,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
+      "projectUniqueName": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
       "projectName": "LibraryManagementSystem.Business",
-      "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
+      "projectPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\LibraryManagementSystem.Business.csproj",
       "packagesPath": "C:\\Users\\Nicat\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\obj\\",
+      "outputPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.Business\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Nicat\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2974,8 +2974,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj"
+            "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj"
             }
           }
         }

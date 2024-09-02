@@ -86,12 +86,12 @@
         },
         "compile": {
           "ref/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "related": ".xml;.pdb"
+            "related": ".pdb;.xml"
           }
         },
         "runtime": {
           "lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "related": ".xml;.pdb"
+            "related": ".pdb;.xml"
           }
         },
         "runtimeTargets": {
@@ -2210,11 +2210,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj",
       "projectName": "LibraryManagementSystem.DataAccess",
-      "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj",
+      "projectPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\LibraryManagementSystem.DataAccess.csproj",
       "packagesPath": "C:\\Users\\Nicat\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\obj\\",
+      "outputPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Nicat\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2231,8 +2231,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj": {
-              "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj"
+            "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj": {
+              "projectPath": "C:\\Users\\Nicat\\Desktop\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj"
             }
           }
         }

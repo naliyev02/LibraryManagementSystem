@@ -11,7 +11,7 @@
         "projectName": "LibraryManagementSystem.Core",
         "projectPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\LibraryManagementSystem.Core.csproj",
         "packagesPath": "C:\\Users\\Nicat\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nicat\\Source\\Repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\obj\\",
+        "outputPath": "C:\\Users\\Nicat\\source\\repos\\LibraryManagementSystem\\src\\LibraryManagementSystem.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nicat\\AppData\\Roaming\\NuGet\\NuGet.Config",

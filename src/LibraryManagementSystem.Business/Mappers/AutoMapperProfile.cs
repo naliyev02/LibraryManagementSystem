@@ -16,6 +16,8 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
+        CreateMap<DateTime, DateOnly>().ReverseMap();
+
         CreateMap<CoverType, CoverTypeGetDto>().ReverseMap();
         CreateMap<CoverType, CoverTypePostDto>().ReverseMap();
         CreateMap<CoverType, CoverTypePutDto>().ReverseMap();

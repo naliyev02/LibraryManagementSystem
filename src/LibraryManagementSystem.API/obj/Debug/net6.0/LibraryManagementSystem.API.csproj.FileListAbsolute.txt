@@ -84,3 +84,9 @@ C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.
 C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.API\obj\Debug\net6.0\LibraryManagementSystem.API.pdb
 C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.API\obj\Debug\net6.0\LibraryManagementSystem.API.genruntimeconfig.cache
 C:\Users\Nicat\source\repos\LibraryManagementSystem\src\LibraryManagementSystem.API\obj\Debug\net6.0\ref\LibraryManagementSystem.API.dll
+C:\Users\Nicat\Source\Repos\LibraryManagementSystem\src\LibraryManagementSystem.API\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+C:\Users\Nicat\Source\Repos\LibraryManagementSystem\src\LibraryManagementSystem.API\bin\Debug\net6.0\MailKit.dll
+C:\Users\Nicat\Source\Repos\LibraryManagementSystem\src\LibraryManagementSystem.API\bin\Debug\net6.0\MimeKit.dll
+C:\Users\Nicat\Source\Repos\LibraryManagementSystem\src\LibraryManagementSystem.API\bin\Debug\net6.0\System.Formats.Asn1.dll
+C:\Users\Nicat\Source\Repos\LibraryManagementSystem\src\LibraryManagementSystem.API\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\Nicat\Source\Repos\LibraryManagementSystem\src\LibraryManagementSystem.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll

@@ -1,11 +1,12 @@
 ﻿using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Entities.Common;
 using LibraryManagementSystem.DataAccess.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.DataAccess.Contexts;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext
 {
     public AppDbContext(DbContextOptions options) : base(options)
     {

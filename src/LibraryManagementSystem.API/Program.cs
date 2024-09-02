@@ -2,10 +2,16 @@ using LibraryManagementSystem.API.Extensions;
 using LibraryManagementSystem.Business.Mappers;
 using LibraryManagementSystem.Business.Services.Implementations;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Contexts;
 using LibraryManagementSystem.DataAccess.Repositories.Implementations;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace LibraryManagementSystem.API
 {
@@ -20,6 +26,44 @@ namespace LibraryManagementSystem.API
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+
+                options.Password.RequireNonAlphanumeric = true; //reqem ve herif olmayan
+                options.Password.RequireDigit = true; //reqem
+                options.Password.RequireLowercase = true; //kicik herif
+                options.Password.RequireUppercase = true; //boyuk herif
+                options.Password.RequiredLength = 8; //minimum olcu
+
+                options.Lockout.MaxFailedAccessAttempts = 5; //yanlýs cehd sayý
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30); //block muddeti
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration
+                        ["Jwt:SecurityKey"])),
+                    LifetimeValidator = (_, expires, _, _) => expires != null ? expires > DateTime.UtcNow : false
+                };
+            });
+
+
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
             builder.Services.AddScoped<ICoverTypeRepository, CoverTypeRepository>();
@@ -30,7 +74,7 @@ namespace LibraryManagementSystem.API
 
             builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
             builder.Services.AddScoped<IPublisherService, PublisherService>();
-            
+
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<IAuthorService, AuthorService>();
 
@@ -48,7 +92,34 @@ namespace LibraryManagementSystem.API
             builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "JWTToken_Auth_API",
+                    Version = "v1"
+                });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+            new OpenApiSecurityScheme {
+                Reference = new OpenApiReference {
+                    Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+            });
 
             var app = builder.Build();
 
@@ -62,7 +133,7 @@ namespace LibraryManagementSystem.API
 
             app.AddExceptionHandlerService();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

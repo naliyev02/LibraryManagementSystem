@@ -1,7 +1,9 @@
 using LibraryManagementSystem.API.Extensions;
 using LibraryManagementSystem.Business.Mappers;
 using LibraryManagementSystem.Business.Services.Implementations;
+using LibraryManagementSystem.Business.Services.Implementations.Identity;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using LibraryManagementSystem.Business.Services.Interfaces.Identity;
 using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Contexts;
 using LibraryManagementSystem.DataAccess.Repositories.Implementations;
@@ -66,6 +68,11 @@ namespace LibraryManagementSystem.API
 
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
             builder.Services.AddScoped<ICoverTypeRepository, CoverTypeRepository>();
             builder.Services.AddScoped<ICoverTypeService, CoverTypeService>();
 
@@ -96,7 +103,7 @@ namespace LibraryManagementSystem.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "JWTToken_Auth_API",
+                    Title = "LibraryManagementSystem",
                     Version = "v1"
                 });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()

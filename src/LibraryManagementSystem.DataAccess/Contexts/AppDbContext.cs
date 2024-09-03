@@ -1,16 +1,19 @@
 ﻿using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Entities.Common;
+using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.DataAccess.Contexts;
 
-public class AppDbContext : IdentityDbContext
+public class AppDbContext : IdentityDbContext<AppUser>
 {
-    public AppDbContext(DbContextOptions options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
+
+    //public DbSet<AppUser> appUsers { get; set; }
 
     public DbSet<Book> Books { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -21,6 +24,7 @@ public class AppDbContext : IdentityDbContext
     public DbSet<Publisher> Publishers { get; set; }
     public DbSet<Author> Authors { get; set; }
     public DbSet<BookAuthor> BookAuthors { get; set; }
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

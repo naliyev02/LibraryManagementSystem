@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Business.DTOs.Identity.TokenDtos;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
 using LibraryManagementSystem.Core.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -43,6 +44,7 @@ public class TokenService : ITokenService
 
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
         string token = tokenHandler.WriteToken(jwtSecurityToken);
+
 
         return new TokenDto { Token = token, Expires = jwtSecurityToken.ValidTo, UserName = user.UserName };
     }

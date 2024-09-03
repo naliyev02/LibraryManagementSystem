@@ -28,7 +28,11 @@ public class AuthService : IAuthService
         if (!isSuccess)
             throw new GenericNotFoundException("Invalid username or password");
 
-        return await _tokenService.GenerateTokenAsync(user);
+        TokenDto token = await _tokenService.GenerateTokenAsync(user);
+
+        await _userManager.SetAuthenticationTokenAsync(user, "Local", "RefreshToken", token.Token);
+
+        return token;
     }
 
     public async Task RegisterAsync(RegisterDto registerDto)

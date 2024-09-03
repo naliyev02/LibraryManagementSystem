@@ -23,11 +23,23 @@ public class UserService : IUserService
         _mapper = mapper;
     }
 
+    public async Task<IEnumerable<UserGetDto>> GetAllUsers()
+    {
+        var users =  _userManager.Users;
+
+        var userDtos = _mapper.Map<IEnumerable<UserGetDto>>(users);
+
+        return userDtos;
+    }
+
     public async Task<UserGetDto> GetUser()
     {
         var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            throw new GenericNotFoundException("User tapılmadı");
+
         var userDto = _mapper.Map<UserGetDto>(user);
 
         return userDto;
@@ -48,7 +60,7 @@ public class UserService : IUserService
         if (!result.Succeeded)
             throw new GenericNotFoundException("User yaradılarkən xəta baş verdi");
 
-        return new GenericResponseDto(200, "User uğurla yaradıldı");
+        return new GenericResponseDto(200, "İstifadəçi uğurla yaradıldı");
     }
 
     public async Task<GenericResponseDto> AddRoleToUserAsync(AddRoleToUserDto addRoleToUserDto)
@@ -63,6 +75,6 @@ public class UserService : IUserService
         if (!result.Succeeded)
             throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
 
-        return new GenericResponseDto(200, "User uğurla yaradıldı");
+        return new GenericResponseDto(200, "İstifadəçiyə rol uğurla əlavə edildi");
     }
 }

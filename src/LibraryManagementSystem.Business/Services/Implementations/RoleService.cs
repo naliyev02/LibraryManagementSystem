@@ -23,6 +23,14 @@ public class RoleService : IRoleService
         _roleManager = roleManager;
     }
 
+    public async Task<IEnumerable<RoleGetDto>> GetAllRolesAsync()
+    {
+        var roles = _roleManager.Roles;
+
+        var roleDtos = _mapper.Map<IEnumerable<RoleGetDto>>(roles);
+        return roleDtos;
+    }
+
     public async Task<GenericResponseDto> CreateRoleAsync(RolePostDto rolePostDto)
     {
         var result = await _roleManager.CreateAsync(new IdentityRole(rolePostDto.Name));
@@ -30,11 +38,24 @@ public class RoleService : IRoleService
         return new((int)HttpStatusCode.Created, "Role successfully created");
     }
 
-    //public async Task<List<RoleGetResponseDto>> GetAllRolesAsync()
-    //{
-    //    var roles = await _context.Roles.ToListAsync();
+    
 
-    //    var roleGetResponseDtos = _mapper.Map<List<RoleGetResponseDto>>(roles);
-    //    return roleGetResponseDtos;
-    //}
+    public async Task<GenericResponseDto> DeleteRoleAsync(string name)
+    {
+        var role = await _roleManager.FindByNameAsync(name);
+
+        if (role == null)
+        {
+            return new((int)HttpStatusCode.NotFound, "Role not found");
+        }
+
+        var result = await _roleManager.DeleteAsync(role);
+
+        if (result.Succeeded)
+        {
+            return new((int)HttpStatusCode.OK, "Role successfully deleted");
+        }
+
+        return new((int)HttpStatusCode.InternalServerError, "Failed to delete role");
+    }
 }

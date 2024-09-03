@@ -15,10 +15,24 @@ namespace LibraryManagementSystem.API.Controllers
             _service = service;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _service.GetAllRolesAsync());
+        }
+
+
         [HttpPost]
-        public async Task<IActionResult> Post(RolePostDto rolePostDto)
+        public async Task<IActionResult> Create(RolePostDto rolePostDto)
         {
             await _service.CreateRoleAsync(rolePostDto);
+            return StatusCode(StatusCodes.Status201Created);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string name)
+        {
+            await _service.DeleteRoleAsync(name);
             return StatusCode(StatusCodes.Status201Created);
         }
     }

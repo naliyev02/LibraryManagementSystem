@@ -33,14 +33,14 @@ namespace LibraryManagementSystem.API
             {
                 options.User.RequireUniqueEmail = true;
 
-                options.Password.RequireNonAlphanumeric = true; //reqem ve herif olmayan
-                options.Password.RequireDigit = true; //reqem
-                options.Password.RequireLowercase = true; //kicik herif
-                options.Password.RequireUppercase = true; //boyuk herif
-                options.Password.RequiredLength = 8; //minimum olcu
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 8;
 
-                options.Lockout.MaxFailedAccessAttempts = 5; //yanlýs cehd sayý
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); //block muddeti
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 

@@ -1,9 +1,11 @@
 ﻿using LibraryManagementSystem.Business.DTOs.BookDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase

@@ -29,9 +29,9 @@ namespace LibraryManagementSystem.API.Controllers
         }
 
         [HttpPost("AddRole")]
-        public async Task<IActionResult> AddRole(string userId, string roleName)
+        public async Task<IActionResult> AddRole(AddRoleToUserDto addRoleToUserDto)
         {
-            return Ok(await _service.AddRoleToUserAsync(userId, roleName));
+            return Ok(await _service.AddRoleToUserAsync(addRoleToUserDto));
         }
     }
 }

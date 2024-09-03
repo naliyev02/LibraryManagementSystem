@@ -1,4 +1,5 @@
 using LibraryManagementSystem.API.Extensions;
+using LibraryManagementSystem.API.Middlewares;
 using LibraryManagementSystem.Business.Mappers;
 using LibraryManagementSystem.Business.Services.Implementations;
 using LibraryManagementSystem.Business.Services.Implementations.Identity;
@@ -39,7 +40,7 @@ namespace LibraryManagementSystem.API
                 options.Password.RequiredLength = 8; //minimum olcu
 
                 options.Lockout.MaxFailedAccessAttempts = 5; //yanlýs cehd sayý
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30); //block muddeti
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); //block muddeti
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 
@@ -116,16 +117,16 @@ namespace LibraryManagementSystem.API
                     Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-        {
-            new OpenApiSecurityScheme {
-                Reference = new OpenApiReference {
-                    Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
-    });
+                    {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference {
+                                Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
 
             var app = builder.Build();
@@ -134,7 +135,11 @@ namespace LibraryManagementSystem.API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<CustomAuthorizationMiddleware>();
+
 
             app.UseHttpsRedirection();
 
@@ -142,6 +147,7 @@ namespace LibraryManagementSystem.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+
 
 
             app.MapControllers();

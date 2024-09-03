@@ -8,7 +8,9 @@ using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
 using LibraryManagementSystem.Business.DTOs.GenreDtos;
 using LibraryManagementSystem.Business.DTOs.LanguageDtos;
 using LibraryManagementSystem.Business.DTOs.PublisherDtos;
+using LibraryManagementSystem.Business.DTOs.UserDtos;
 using LibraryManagementSystem.Core.Entities;
+using LibraryManagementSystem.Core.Entities.Identity;
 
 namespace LibraryManagementSystem.Business.Mappers;
 
@@ -16,7 +18,8 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<DateTime, DateOnly>().ReverseMap();
+        CreateMap<AppUser, UserGetDto>().ReverseMap();
+
 
         CreateMap<CoverType, CoverTypeGetDto>().ReverseMap();
         CreateMap<CoverType, CoverTypePostDto>().ReverseMap();

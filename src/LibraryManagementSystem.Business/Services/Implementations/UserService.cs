@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.UserDtos;
+using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities.Identity;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +33,7 @@ public class UserService : IUserService
         return userDto;
     }
 
-    public async Task<IdentityResult> RegisterUserAsync(UserRegisterDto userRegisterDto)
+    public async Task<GenericResponseDto> RegisterUserAsync(UserRegisterDto userRegisterDto)
     {
         if (userRegisterDto.Password != userRegisterDto.ConfirmPassword)
             throw new ArgumentException("");
@@ -43,23 +45,24 @@ public class UserService : IUserService
         };
 
         var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
-        return result;
+        if (!result.Succeeded)
+            throw new GenericNotFoundException("User yaradılarkən xəta baş verdi");
+
+        return new GenericResponseDto(200, "User uğurla yaradıldı");
     }
 
-    public async Task<IdentityResult> AddRoleToUserAsync(string userId, string roleName)
+    public async Task<GenericResponseDto> AddRoleToUserAsync(AddRoleToUserDto addRoleToUserDto)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.FindByIdAsync(addRoleToUserDto.userId);
         if (user == null)
         {
             throw new Exception("İstifadəçi tapılmadı.");
         }
 
-        var result = await _userManager.AddToRoleAsync(user, roleName);
+        var result = await _userManager.AddToRoleAsync(user, addRoleToUserDto.roleName);
         if (!result.Succeeded)
-        {
             throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
-        }
 
-        return result;
+        return new GenericResponseDto(200, "User uğurla yaradıldı");
     }
 }

@@ -2,6 +2,6 @@
 
 public class UserGetDto
 {
-    public int Id { get; set; }
-    public string Username { get; set; }
+    public string Id { get; set; }
+    public string UserName { get; set; }
 }

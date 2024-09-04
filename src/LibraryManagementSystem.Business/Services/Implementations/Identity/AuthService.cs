@@ -31,8 +31,36 @@ public class AuthService : IAuthService
         TokenDto token = await _tokenService.GenerateTokenAsync(user);
 
         await _userManager.SetAuthenticationTokenAsync(user, "Local", "AccessToken", token.Token);
+        await _userManager.SetAuthenticationTokenAsync(user, "Local", "RefreshToken", token.RefreshToken);
 
         return token;
+    }
+
+    public async Task<TokenDto> CreateTokenByRefreshTokenAsync(string refreshToken)
+    {
+
+        //var userRefreshToken = _identityUserToken.Name.Equals(refreshToken);
+        //string userId = null;
+
+        //if (!userRefreshToken)
+        //    throw new GenericNotFoundException("");
+        //else
+        //{
+        //    userId = _identityUserToken.UserId;
+        //}
+
+        //var user = await _userManager.FindByIdAsync(userId);
+        //if (user == null)
+        //    throw new GenericNotFoundException("");
+
+        //TokenDto token = await _tokenService.GenerateTokenAsync(user);
+
+        //await _userManager.SetAuthenticationTokenAsync(user, "Local", "AccessToken", token.Token);
+        //await _userManager.SetAuthenticationTokenAsync(user, "Local", "RefreshToken", token.RefreshToken);
+
+        //return token;
+
+        return new();
     }
 
     public async Task RegisterAsync(RegisterDto registerDto)

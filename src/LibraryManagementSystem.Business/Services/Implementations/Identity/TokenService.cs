@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace LibraryManagementSystem.Business.Services.Implementations.Identity;
@@ -21,6 +22,9 @@ public class TokenService : ITokenService
 
     public async Task<TokenDto> GenerateTokenAsync(AppUser user)
     {
+        var accessTokenExpiration = DateTime.Now.AddHours(1);
+        var refreshTokenExpiration = DateTime.Now.AddHours(24); 
+
         List<Claim> claims = new List<Claim>()
         {
             new Claim(ClaimTypes.Name, user.UserName),
@@ -38,14 +42,27 @@ public class TokenService : ITokenService
             audience: _configuration["Jwt:Audience"],
             claims: claims,
             notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddMinutes(15),
+            expires: accessTokenExpiration,
             signingCredentials: signingCredentials
         );
 
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
         string token = tokenHandler.WriteToken(jwtSecurityToken);
 
+        string refreshToken = GenerateRefreshToken();
 
-        return new TokenDto { Token = token, TokenExpire = jwtSecurityToken.ValidTo};
+
+        return new TokenDto { Token = token, TokenExpire = jwtSecurityToken.ValidTo, RefreshToken = refreshToken , RefreshTokenExpire = refreshTokenExpiration };
     }
+
+
+    private static string GenerateRefreshToken()
+    {
+        var numberByte = new byte[32];
+        using var random = RandomNumberGenerator.Create();
+        random.GetBytes(numberByte);
+
+        return Convert.ToBase64String(numberByte);
+    }
+
 }

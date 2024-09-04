@@ -69,7 +69,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.Book", b =>
@@ -135,7 +135,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.BookAuthor", b =>
@@ -177,7 +177,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("BookAuthors", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.BookGenre", b =>
@@ -219,7 +219,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenres");
+                    b.ToTable("BookGenres", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.Category", b =>
@@ -256,7 +256,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.CoverType", b =>
@@ -293,7 +293,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CoverTypes");
+                    b.ToTable("CoverTypes", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.Genre", b =>
@@ -335,7 +335,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.Identity.AppRole", b =>
@@ -464,7 +464,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages");
+                    b.ToTable("Languages", (string)null);
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.Publisher", b =>
@@ -511,7 +511,7 @@ namespace LibraryManagementSystem.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publishers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

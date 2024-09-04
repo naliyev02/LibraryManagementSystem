@@ -20,5 +20,11 @@ namespace LibraryManagementSystem.API.Controllers
         {
             return Ok(await _authService.LoginAsync(loginDto));
         }
+
+        [HttpPost("RefreshToken/{refreshToken}")]
+        public async Task<IActionResult> RefreshToken(string refreshToken)
+        {
+            return Ok(await _authService.CreateTokenByRefreshTokenAsync(refreshToken));
+        }
     }
 }

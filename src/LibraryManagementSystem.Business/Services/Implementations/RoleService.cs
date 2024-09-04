@@ -2,6 +2,7 @@
 using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.RoleDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -12,11 +13,11 @@ namespace LibraryManagementSystem.Business.Services.Implementations;
 public class RoleService : IRoleService
 {
     private readonly AppDbContext _context;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<AppRole> _roleManager;
     private readonly IMapper _mapper;
 
 
-    public RoleService(AppDbContext context, IMapper mapper, RoleManager<IdentityRole> roleManager)
+    public RoleService(AppDbContext context, IMapper mapper, RoleManager<AppRole> roleManager)
     {
         _context = context;
         _mapper = mapper;
@@ -33,7 +34,7 @@ public class RoleService : IRoleService
 
     public async Task<GenericResponseDto> CreateRoleAsync(RolePostDto rolePostDto)
     {
-        var result = await _roleManager.CreateAsync(new IdentityRole(rolePostDto.Name));
+        var result = await _roleManager.CreateAsync(new AppRole(rolePostDto.Name));
 
         return new((int)HttpStatusCode.Created, "Role successfully created");
     }

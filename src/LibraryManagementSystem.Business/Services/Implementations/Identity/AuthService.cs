@@ -30,7 +30,7 @@ public class AuthService : IAuthService
 
         TokenDto token = await _tokenService.GenerateTokenAsync(user);
 
-        await _userManager.SetAuthenticationTokenAsync(user, "Local", "RefreshToken", token.Token);
+        await _userManager.SetAuthenticationTokenAsync(user, "Local", "AccessToken", token.Token);
 
         return token;
     }

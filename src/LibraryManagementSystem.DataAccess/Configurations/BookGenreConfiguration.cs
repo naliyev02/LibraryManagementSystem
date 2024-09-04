@@ -16,5 +16,8 @@ public class BookGenreConfiguration : IEntityTypeConfiguration<BookGenre>
 
         builder.HasOne(x => x.Book).WithMany(y => y.BookGenres).HasForeignKey(x => x.BookId);
         builder.HasOne(x => x.Genre).WithMany(y => y.BookGenres).HasForeignKey(x => x.GenreId);
+
+        builder.Property(x => x.CreatedBy).HasMaxLength(150);
+        builder.Property(x => x.UpdatedBy).HasMaxLength(150);
     }
 }

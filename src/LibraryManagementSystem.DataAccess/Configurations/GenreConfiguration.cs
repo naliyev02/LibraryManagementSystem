@@ -13,5 +13,8 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
 
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
         builder.HasOne(x => x.Category).WithMany(x => x.Genres).HasForeignKey(x => x.CategoryId);
+
+        builder.Property(x => x.CreatedBy).HasMaxLength(150);
+        builder.Property(x => x.UpdatedBy).HasMaxLength(150);
     }
 }

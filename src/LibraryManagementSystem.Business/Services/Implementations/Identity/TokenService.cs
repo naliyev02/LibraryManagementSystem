@@ -31,14 +31,14 @@ public class TokenService : ITokenService
         SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8
             .GetBytes(_configuration["Jwt:SecurityKey"]));
 
-        SigningCredentials signingCredentials = new(symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
+        SigningCredentials signingCredentials = new(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
 
         JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
             notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddMinutes(1),
+            expires: DateTime.UtcNow.AddMinutes(15),
             signingCredentials: signingCredentials
         );
 
@@ -46,6 +46,6 @@ public class TokenService : ITokenService
         string token = tokenHandler.WriteToken(jwtSecurityToken);
 
 
-        return new TokenDto { Token = token, Expires = jwtSecurityToken.ValidTo, UserName = user.UserName };
+        return new TokenDto { Token = token, TokenExpire = jwtSecurityToken.ValidTo};
     }
 }

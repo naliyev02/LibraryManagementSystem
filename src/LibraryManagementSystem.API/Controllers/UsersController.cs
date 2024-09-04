@@ -17,10 +17,10 @@ namespace LibraryManagementSystem.API.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUser()
+        [HttpGet("GetUserInfo")]
+        public async Task<IActionResult> GetUserInfo()
         {
-            return Ok(await _service.GetUser());
+            return Ok(await _service.GetUserInfo());
         }
 
         [HttpGet("GetAllUsers")]
@@ -35,7 +35,7 @@ namespace LibraryManagementSystem.API.Controllers
             return Ok(await _service.RegisterUserAsync(userRegisterDto));
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("AddRole")]
         public async Task<IActionResult> AddRole(AddRoleToUserDto addRoleToUserDto)
         {

@@ -17,5 +17,8 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(x => x.PublishedDate).IsRequired();
         builder.Property(x => x.CopiesAvailable).IsRequired();
 
+        builder.Property(x => x.CreatedBy).HasMaxLength(150);
+        builder.Property(x => x.UpdatedBy).HasMaxLength(150);
+
     }
 }

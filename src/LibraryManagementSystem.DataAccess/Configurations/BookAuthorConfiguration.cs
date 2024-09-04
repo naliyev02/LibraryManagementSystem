@@ -15,5 +15,8 @@ internal class BookAuthorConfiguration : IEntityTypeConfiguration<BookAuthor>
         builder.HasOne(x => x.Book).WithMany(y => y.BookAuthors).HasForeignKey(x => x.BookId);
         builder.HasOne(x => x.Author).WithMany(y => y.BookAuthors).HasForeignKey(x => x.AuthorId);
 
+        builder.Property(x => x.CreatedBy).HasMaxLength(150);
+        builder.Property(x => x.UpdatedBy).HasMaxLength(150);
+
     }
 }

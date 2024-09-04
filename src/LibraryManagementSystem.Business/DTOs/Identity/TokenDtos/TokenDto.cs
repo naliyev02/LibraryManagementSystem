@@ -3,6 +3,7 @@
 public class TokenDto
 {
     public string Token { get; set; }
-    public DateTime Expires { get; set; }
-    public string UserName { get; set; }
+    public DateTime TokenExpire { get; set; }
+    public string RefreshToken { get; set; }
+    public DateTime RefreshTokenExpire { get; set; }
 }

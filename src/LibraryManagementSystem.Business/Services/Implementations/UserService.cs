@@ -32,7 +32,7 @@ public class UserService : IUserService
         return userDtos;
     }
 
-    public async Task<UserGetDto> GetUser()
+    public async Task<UserGetDto> GetUserInfo()
     {
         var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -41,6 +41,9 @@ public class UserService : IUserService
             throw new GenericNotFoundException("User tapılmadı");
 
         var userDto = _mapper.Map<UserGetDto>(user);
+
+        var roleDtos = await _userManager.GetRolesAsync(user);
+        userDto.Roles = roleDtos.ToList();
 
         return userDto;
     }

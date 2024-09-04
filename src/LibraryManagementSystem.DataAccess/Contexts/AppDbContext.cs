@@ -2,18 +2,20 @@
 using LibraryManagementSystem.Core.Entities.Common;
 using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Configurations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LibraryManagementSystem.DataAccess.Contexts;
 
-public class AppDbContext : IdentityDbContext<AppUser>
+public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
+        _httpContextAccessor = httpContextAccessor;
     }
-
-    //public DbSet<AppUser> appUsers { get; set; }
 
     public DbSet<Book> Books { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -31,7 +33,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(BookConfiguration).Assembly);
 
-        //modelBuilder.Entity<Book>().HasQueryFilter(p => !p.IsDeleted);
+        modelBuilder.Entity<Book>().HasQueryFilter(p => !p.IsDeleted);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -40,20 +42,22 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
         var entries = ChangeTracker.Entries<BaseEntity>();
 
+        string userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
         foreach (var entry in entries)
         {
             switch (entry.State)
             {
                 case EntityState.Added:
                     entry.Entity.CreatedAt = DateTime.UtcNow;
-                    entry.Entity.CreatedBy = 1;
+                    entry.Entity.CreatedBy = userId;
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedBy = 1;
+                    entry.Entity.UpdatedBy = userId;
                     break;
 
                 case EntityState.Modified:
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
-                    entry.Entity.UpdatedBy = 1;
+                    entry.Entity.UpdatedBy = userId;
                     break;
             }
         }

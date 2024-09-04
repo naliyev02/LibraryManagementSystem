@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Business.DTOs.LanguageDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.API.Controllers
@@ -27,6 +28,7 @@ namespace LibraryManagementSystem.API.Controllers
             return Ok(await _service.GetByIdAsync(id));
         }
 
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(LanguagePostDto languagePostDto)
         {

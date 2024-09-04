@@ -13,5 +13,8 @@ public class CoverTypeConfiguration : IEntityTypeConfiguration<CoverType>
 
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
         builder.HasMany(x => x.Books).WithOne(y => y.CoverType).HasForeignKey(y => y.CoverTypeId);
+
+        builder.Property(x => x.CreatedBy).HasMaxLength(150);
+        builder.Property(x => x.UpdatedBy).HasMaxLength(150);
     }
 }

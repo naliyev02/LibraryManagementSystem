@@ -7,7 +7,7 @@ namespace LibraryManagementSystem.Business.Services.Interfaces;
 public interface IUserService
 {
     Task<IEnumerable<UserGetDto>> GetAllUsers();
-    Task<UserGetDto> GetUser();
+    Task<UserGetDto> GetUserInfo();
     Task<GenericResponseDto> RegisterUserAsync(UserRegisterDto userRegisterDto);
     Task<GenericResponseDto> AddRoleToUserAsync(AddRoleToUserDto addRoleToUserDto);
 }

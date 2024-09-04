@@ -21,7 +21,7 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<AppUser, UserGetDto>().ReverseMap();
-        CreateMap<IdentityRole, RoleGetDto>().ReverseMap();
+        CreateMap<AppRole, RoleGetDto>().ReverseMap();
 
 
         CreateMap<CoverType, CoverTypeGetDto>().ReverseMap();

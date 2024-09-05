@@ -5,7 +5,7 @@ namespace LibraryManagementSystem.Business.Services.Interfaces.Identity;
 
 public interface IAuthService
 {
-    Task<TokenDto> LoginAsync(LoginDto authDto);
+    Task<LoginResponse> LoginAsync(LoginDto authDto);
     Task RegisterAsync(RegisterDto registerDto);
-    Task<TokenDto> CreateTokenByRefreshTokenAsync(string refreshToken);
+    //Task<TokenDto> CreateTokenByRefreshTokenAsync(string refreshToken);
 }

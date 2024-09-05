@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Business.DTOs.Identity.AuthDtos;
+using LibraryManagementSystem.Business.DTOs.Identity.TokenDtos;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,23 +9,31 @@ namespace LibraryManagementSystem.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthService _service;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService service, ITokenService tokenService)
         {
-            _authService = authService;
+            _service = service;
+            _tokenService = tokenService;
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            return Ok(await _authService.LoginAsync(loginDto));
+            return Ok(await _service.LoginAsync(loginDto));
         }
 
-        [HttpPost("RefreshToken/{refreshToken}")]
-        public async Task<IActionResult> RefreshToken(string refreshToken)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshToken(TokenDto tokenDto)
         {
-            return Ok(await _authService.CreateTokenByRefreshTokenAsync(refreshToken));
+
+            var loginResult = await _tokenService.RefreshToken(tokenDto);
+            if (loginResult.IsLogedIn)
+            {
+                return Ok(loginResult);
+            }
+            return Unauthorized();
         }
     }
 }

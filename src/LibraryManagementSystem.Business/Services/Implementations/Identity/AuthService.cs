@@ -18,7 +18,7 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<TokenDto> LoginAsync(LoginDto authDto)
+    public async Task<LoginResponse> LoginAsync(LoginDto authDto)
     {
         var user = await _userManager.FindByNameAsync(authDto.UserName);
         if (user is null)
@@ -28,40 +28,40 @@ public class AuthService : IAuthService
         if (!isSuccess)
             throw new GenericNotFoundException("Invalid username or password");
 
-        TokenDto token = await _tokenService.GenerateTokenAsync(user);
 
-        await _userManager.SetAuthenticationTokenAsync(user, "Local", "AccessToken", token.Token);
-        await _userManager.SetAuthenticationTokenAsync(user, "Local", "RefreshToken", token.RefreshToken);
+        LoginResponse response = new LoginResponse();
 
-        return token;
+        await _tokenService.GeneratetokensAndUpdatetSataBase(response,user);
+
+        return response;
     }
 
-    public async Task<TokenDto> CreateTokenByRefreshTokenAsync(string refreshToken)
-    {
+    //public async Task<TokenDto> CreateTokenByRefreshTokenAsync(string refreshToken)
+    //{
 
-        //var userRefreshToken = _identityUserToken.Name.Equals(refreshToken);
-        //string userId = null;
+    //    //var userRefreshToken = _identityUserToken.Name.Equals(refreshToken);
+    //    //string userId = null;
 
-        //if (!userRefreshToken)
-        //    throw new GenericNotFoundException("");
-        //else
-        //{
-        //    userId = _identityUserToken.UserId;
-        //}
+    //    //if (!userRefreshToken)
+    //    //    throw new GenericNotFoundException("");
+    //    //else
+    //    //{
+    //    //    userId = _identityUserToken.UserId;
+    //    //}
 
-        //var user = await _userManager.FindByIdAsync(userId);
-        //if (user == null)
-        //    throw new GenericNotFoundException("");
+    //    //var user = await _userManager.FindByIdAsync(userId);
+    //    //if (user == null)
+    //    //    throw new GenericNotFoundException("");
 
-        //TokenDto token = await _tokenService.GenerateTokenAsync(user);
+    //    //TokenDto token = await _tokenService.GenerateTokenAsync(user);
 
-        //await _userManager.SetAuthenticationTokenAsync(user, "Local", "AccessToken", token.Token);
-        //await _userManager.SetAuthenticationTokenAsync(user, "Local", "RefreshToken", token.RefreshToken);
+    //    //await _userManager.SetAuthenticationTokenAsync(user, "Local", "AccessToken", token.Token);
+    //    //await _userManager.SetAuthenticationTokenAsync(user, "Local", "RefreshToken", token.RefreshToken);
 
-        //return token;
+    //    //return token;
 
-        return new();
-    }
+    //    return new();
+    //}
 
     public async Task RegisterAsync(RegisterDto registerDto)
     {

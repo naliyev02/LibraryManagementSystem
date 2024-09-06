@@ -5,6 +5,7 @@ using LibraryManagementSystem.Business.Services.Implementations;
 using LibraryManagementSystem.Business.Services.Implementations.Identity;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
+using LibraryManagementSystem.Business.Utils;
 using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Contexts;
 using LibraryManagementSystem.DataAccess.Repositories.Implementations;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace LibraryManagementSystem.API
@@ -53,6 +55,10 @@ namespace LibraryManagementSystem.API
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
+                var rsaKey = RSA.Create();
+                string xmlKey = File.ReadAllText(builder.Configuration.GetSection("Jwt:PrivateKeyPath").Value);
+                rsaKey.FromXmlString(xmlKey);
+
                 options.TokenValidationParameters = new()
                 {
                     ValidateIssuer = true,
@@ -62,8 +68,9 @@ namespace LibraryManagementSystem.API
 
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration
-                        ["Jwt:SecurityKey"])),
+                    IssuerSigningKey  = new RsaSecurityKey(rsaKey),
+                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration
+                    //    ["Jwt:SecurityKey"])),
                     LifetimeValidator = (_, expires, _, _) => expires != null ? expires > DateTime.UtcNow : false
                 };
             });
@@ -130,6 +137,11 @@ namespace LibraryManagementSystem.API
                     }
                 });
             });
+
+            Constants.mail = builder.Configuration["MailSettings:Mail"];
+            Constants.password = builder.Configuration["MailSettings:Password"];
+            Constants.host = builder.Configuration["MailSettings:Host"];
+            Constants.port = int.Parse(builder.Configuration["MailSettings:Port"]);
 
             builder.Services.AddHttpContextAccessor();
 

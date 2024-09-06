@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Business.DTOs.Identity.AuthDtos;
+using LibraryManagementSystem.Business.DTOs.Identity.ClaimDtos;
 using LibraryManagementSystem.Business.DTOs.Identity.TokenDtos;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
 using LibraryManagementSystem.Core.Entities.Identity;
@@ -43,7 +44,7 @@ public class TokenService : ITokenService
     public async Task GeneratetokensAndUpdatetSataBase(LoginResponse response, AppUser? user)
     {
         response.IsLogedIn = true;
-        response.JwtToken = this.GenerateTokenString(user.Id, user.UserName);
+        response.JwtToken = this.GenerateTokenString(new ClaimDto() { Id = user.Id, UserName = user.UserName });
         response.RefreshToken = this.GenerateRefreshToken();
 
         user.RefreshToken = response.RefreshToken;
@@ -82,13 +83,13 @@ public class TokenService : ITokenService
         return new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
     }
 
-    private string GenerateTokenString(string id, string userName)
+    private string GenerateTokenString(ClaimDto claimDto)
     {
         var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name,userName),
-                new Claim(ClaimTypes.NameIdentifier, id)
-            };
+        {
+            new Claim(ClaimTypes.Name,claimDto.UserName),
+            new Claim(ClaimTypes.NameIdentifier, claimDto.Id)
+        };
 
         //var staticKey = _config.GetSection("Jwt:Key").Value;
         //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(staticKey));

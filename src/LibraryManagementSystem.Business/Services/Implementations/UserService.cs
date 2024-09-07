@@ -3,6 +3,7 @@ using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.UserDtos;
 using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using LibraryManagementSystem.Business.Utils.Enums;
 using LibraryManagementSystem.Core.Entities.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -68,15 +69,38 @@ public class UserService : IUserService
 
     public async Task<GenericResponseDto> AddRoleToUserAsync(AddRoleToUserDto addRoleToUserDto)
     {
-        var user = await _userManager.FindByIdAsync(addRoleToUserDto.userId);
+        var user = await _userManager.FindByIdAsync(addRoleToUserDto.UserId);
         if (user == null)
         {
             throw new Exception("İstifadəçi tapılmadı.");
         }
 
-        var result = await _userManager.AddToRoleAsync(user, addRoleToUserDto.roleName);
-        if (!result.Succeeded)
-            throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+        foreach (var role in addRoleToUserDto.Roles)
+        {
+            var result = await _userManager.AddToRoleAsync(user, role);
+            if (!result.Succeeded)
+                throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+
+        return new GenericResponseDto(200, "İstifadəçiyə rol uğurla əlavə edildi");
+    }
+
+    public async Task<GenericResponseDto> UpdateRoleToUserAsync(UpdateRoleToUserDto updateRoleToUserDto)
+    {
+        var user = await _userManager.FindByIdAsync(updateRoleToUserDto.UserId);
+        if (user == null)
+        {
+            throw new Exception("İstifadəçi tapılmadı.");
+        }
+
+        await _userManager.RemoveFromRolesAsync(user,Enum.GetNames(typeof(RoleType)));
+
+        foreach (var role in updateRoleToUserDto.Roles)
+        {
+            var result = await _userManager.AddToRoleAsync(user, role);
+            if (!result.Succeeded)
+                throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
 
         return new GenericResponseDto(200, "İstifadəçiyə rol uğurla əlavə edildi");
     }

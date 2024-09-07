@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Business.DTOs.Identity.AuthDtos;
 using LibraryManagementSystem.Business.DTOs.Identity.TokenDtos;
+using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,15 +28,7 @@ namespace LibraryManagementSystem.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> RefreshToken(TokenDto tokenDto)
         {
-
-            var loginResult = await _tokenService.RefreshToken(tokenDto);
-            if (loginResult.IsLogedIn)
-            {
-                return Ok(loginResult);
-            }
-            return Unauthorized();
+            return Ok(await _tokenService.RefreshToken(tokenDto));
         }
-
-        
     }
 }

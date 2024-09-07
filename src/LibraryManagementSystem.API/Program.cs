@@ -12,6 +12,8 @@ using LibraryManagementSystem.DataAccess.Repositories.Implementations;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -56,7 +58,7 @@ namespace LibraryManagementSystem.API
             }).AddJwtBearer(options =>
             {
                 var rsaKey = RSA.Create();
-                string xmlKey = File.ReadAllText(builder.Configuration.GetSection("Jwt:PrivateKeyPath").Value);
+                string xmlKey = File.ReadAllText(builder.Configuration.GetSection("Jwt:PublicKeyPath").Value);
                 rsaKey.FromXmlString(xmlKey);
 
                 options.TokenValidationParameters = new()

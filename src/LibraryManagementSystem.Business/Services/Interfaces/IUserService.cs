@@ -10,4 +10,5 @@ public interface IUserService
     Task<UserGetDto> GetUserInfo();
     Task<GenericResponseDto> RegisterUserAsync(UserRegisterDto userRegisterDto);
     Task<GenericResponseDto> AddRoleToUserAsync(AddRoleToUserDto addRoleToUserDto);
+    Task<GenericResponseDto> UpdateRoleToUserAsync(UpdateRoleToUserDto updateRoleToUserDto);
 }

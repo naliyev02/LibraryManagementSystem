@@ -8,7 +8,7 @@ namespace LibraryManagementSystem.Business.Utils.Helpers;
 
 internal class EmailHelper
 {
-    public async Task SendEmailAsync(MailPostDto mailPostDto)
+    public static async Task SendEmailAsync(MailPostDto mailPostDto)
     {
         var email = new MimeMessage();
         email.Sender = MailboxAddress.Parse(Constants.mail);

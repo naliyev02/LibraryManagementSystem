@@ -20,36 +20,44 @@ namespace LibraryManagementSystem.API.Controllers
             _authService = authService;
         }
 
-        [HttpGet("GetUserInfo")]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetUserInfo()
         {
             return Ok(await _service.GetUserInfo());
         }
 
-        [HttpGet("GetAllUsers")]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAllUsers()
         {
             return Ok(await _service.GetAllUsers());
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
         {
             return Ok(await _service.RegisterUserAsync(userRegisterDto));
         }
 
-        //[Authorize(Roles = "Admin")]
-        [HttpPost("AddRole")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost("[action]")]
         public async Task<IActionResult> AddRole(AddRoleToUserDto addRoleToUserDto)
         {
             return Ok(await _service.AddRoleToUserAsync(addRoleToUserDto));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("[action]")]
-        public async Task<IActionResult> ResetPassword(ChangePasswordDto changePasswordDto)
+        public async Task<IActionResult> UpdateRole(UpdateRoleToUserDto updateRoleToUserDto)
+        {
+            return Ok(await _service.UpdateRoleToUserAsync(updateRoleToUserDto));
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordDto changePasswordDto)
         {
 
-            return Ok(await _authService.ResetPasswordAsync(changePasswordDto));
+            return Ok(await _authService.ChangePasswordAsync(changePasswordDto));
         }
 
         [HttpPost("[action]")]
@@ -57,6 +65,13 @@ namespace LibraryManagementSystem.API.Controllers
         {
 
             return Ok(await _authService.ForgotPasswordAsync(forgotPasswordDto));
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+        {
+
+            return Ok(await _authService.ResetPasswordWithResetTokenAsync(resetPasswordDto));
         }
     }
 }

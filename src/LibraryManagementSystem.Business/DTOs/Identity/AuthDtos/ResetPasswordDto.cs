@@ -2,11 +2,10 @@
 
 namespace LibraryManagementSystem.Business.DTOs.Identity.AuthDtos;
 
-public class ChangePasswordDto
+public class ResetPasswordDto
 {
     public string UserId { get; set; }
-    public string Token { get; set; }
-    public string CurrentPassword { get; set; }
+    public string ResetToken { get; set; }
 
     [Required, DataType(DataType.Password)]
     public string? Password { get; set; }

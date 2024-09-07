@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace LibraryManagementSystem.Business.Services.Implementations.Identity;
 
@@ -16,11 +17,13 @@ public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
     private readonly UserManager<AppUser> _userManager;
+    private readonly RoleManager<AppRole> _roleManager;
 
-    public TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
+    public TokenService(IConfiguration configuration, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
     {
         _configuration = configuration;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task<LoginResponse> RefreshToken(TokenDto model)
@@ -33,6 +36,7 @@ public class TokenService : ITokenService
 
         var identityUser = await _userManager.FindByNameAsync(principal.Identity.Name);
 
+
         if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry < DateTime.Now)
             return response;
 
@@ -43,8 +47,10 @@ public class TokenService : ITokenService
 
     public async Task GeneratetokensAndUpdatetSataBase(LoginResponse response, AppUser? user)
     {
+        var roles = (await _userManager.GetRolesAsync(user)).ToList();
+
         response.IsLogedIn = true;
-        response.JwtToken = this.GenerateTokenString(new ClaimDto() { Id = user.Id, UserName = user.UserName });
+        response.JwtToken = this.GenerateTokenString(new ClaimDto() { Id = user.Id, UserName = user.UserName, Roles = roles });
         response.RefreshToken = this.GenerateRefreshToken();
 
         user.RefreshToken = response.RefreshToken;
@@ -67,9 +73,9 @@ public class TokenService : ITokenService
 
     private ClaimsPrincipal? GetTokenPrincipal(string token)
     {
-        //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:SecurityKey").Value));
 
-        var securityKey = GetRsaKey();
+        //var securityKey = GetRsaKey();
 
         var validation = new TokenValidationParameters
         {
@@ -88,20 +94,29 @@ public class TokenService : ITokenService
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name,claimDto.UserName),
-            new Claim(ClaimTypes.NameIdentifier, claimDto.Id)
+            new Claim(ClaimTypes.NameIdentifier, claimDto.Id),
         };
 
-        //var staticKey = _config.GetSection("Jwt:Key").Value;
-        //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(staticKey));
-        //var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+        foreach (var role in claimDto.Roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        //var staticKey = _configuration.GetSection("Jwt:SecurityKey").Value;
+        //var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8
+        //    .GetBytes(_configuration["Jwt:SecurityKey"]));
+        //var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
 
         RsaSecurityKey rsaSecurityKey = GetRsaKey();
-        var signingCred = new SigningCredentials(rsaSecurityKey, SecurityAlgorithms.RsaSha256);
+        var signingCredentials = new SigningCredentials(rsaSecurityKey, SecurityAlgorithms.RsaSha256);
 
         var securityToken = new JwtSecurityToken(
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(20),
-            signingCredentials: signingCred
+            notBefore: DateTime.UtcNow,
+            expires: DateTime.UtcNow.AddMinutes(20),
+            signingCredentials: signingCredentials
             );
 
         string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);

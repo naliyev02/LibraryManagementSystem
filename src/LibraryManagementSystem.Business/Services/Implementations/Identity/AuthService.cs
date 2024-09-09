@@ -73,7 +73,37 @@ public class AuthService : IAuthService
 
         await _userManager.AddToRoleAsync(user, RoleType.Member.ToString());
 
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        var verifyUrl = $"https://localhost:7211/Users/Register?{user.Id}&{token}";
+
+        //https://localhost:7021/Users/Register?userId&Token //numune olaraq yazilib
+
+        string body = await this.GetEmailTemplateAsync(verifyUrl);
+
+        MailPostDto mailPostDto = new()
+        {
+            ToEmail = user.Email,
+            Subject = "Reset your password",
+            Body = body
+        };
+
+        await EmailHelper.SendEmailAsync(mailPostDto);
+
         return new GenericResponseDto(200, "İstifadəçi uğurla əlavə edildi");
+    }
+
+    public async Task<GenericResponseDto> ConfirmRegister(ConfirmRegisterDto confirmRegisterDto)
+    {
+        var user = await _userManager.FindByIdAsync(confirmRegisterDto.UserId);
+        if (user == null)
+            throw new GenericNotFoundException("Istifadəçi tapılmadı");
+
+        var result = await _userManager.ConfirmEmailAsync(user, confirmRegisterDto.Token);
+        if (!result.Succeeded)
+            throw new Exception("Confirmed email failed: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+
+        return new GenericResponseDto(200, "İstifadəçi uğurla təsdiqləndi");
     }
 
     public async Task<GenericResponseDto> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)

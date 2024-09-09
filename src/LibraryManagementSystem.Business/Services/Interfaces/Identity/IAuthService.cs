@@ -9,6 +9,7 @@ public interface IAuthService
 {
     Task<LoginResponse> LoginAsync(LoginDto authDto);
     Task<GenericResponseDto> RegisterAsync(RegisterDto registerDto);
+    Task<GenericResponseDto> ConfirmRegister(ConfirmRegisterDto confirmRegisterDto);
     Task<GenericResponseDto> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
     Task<GenericResponseDto> ResetPasswordWithResetTokenAsync(ResetPasswordDto resetPasswordDto);
     Task<GenericResponseDto> ChangePasswordAsync(ChangePasswordDto changePasswordDto);

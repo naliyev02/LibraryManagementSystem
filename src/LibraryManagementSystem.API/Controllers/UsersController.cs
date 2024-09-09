@@ -33,9 +33,15 @@ namespace LibraryManagementSystem.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
+        public async Task<IActionResult> Register(RegisterDto registerDto)
         {
-            return Ok(await _service.RegisterUserAsync(userRegisterDto));
+            return Ok(await _authService.RegisterAsync(registerDto));
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ConfirmRegister(ConfirmRegisterDto confirmRegisterDto)
+        {
+            return Ok(await _authService.ConfirmRegister(confirmRegisterDto));
         }
 
         [Authorize(Roles = "Admin")]

@@ -19,5 +19,7 @@ public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
 
         builder.Property(x => x.CreatedBy).HasMaxLength(150);
         builder.Property(x => x.UpdatedBy).HasMaxLength(150);
+
+        builder.HasOne(x => x.User).WithOne(x => x.Publisher).HasForeignKey<Publisher>(x => x.UserId);
     }
 }

@@ -18,5 +18,7 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
 
         builder.Property(x => x.CreatedBy).HasMaxLength(150);
         builder.Property(x => x.UpdatedBy).HasMaxLength(150);
+
+        builder.HasOne(x => x.User).WithOne(x => x.Author).HasForeignKey<Author>(x => x.UserId);
     }
 }

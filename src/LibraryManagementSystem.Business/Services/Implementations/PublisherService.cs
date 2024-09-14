@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.Business.DTOs.LanguageDtos;
 using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.PublisherDtos;
 using LibraryManagementSystem.Business.Exceptions;
+using LibraryManagementSystem.Business.Exceptionsı;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
+using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LibraryManagementSystem.Business.Exceptionsı;
 
 namespace LibraryManagementSystem.Business.Services.Implementations;
 
@@ -15,11 +16,13 @@ public class PublisherService : IPublisherService
 {
     private readonly IPublisherRepository _repository;
     private readonly IMapper _mapper;
+    private readonly UserManager<AppUser> _userManager;
 
-    public PublisherService(IPublisherRepository repository, IMapper mapper)
+    public PublisherService(IPublisherRepository repository, IMapper mapper, UserManager<AppUser> userManager)
     {
         _repository = repository;
         _mapper = mapper;
+        _userManager = userManager;
     }
 
     public async Task<List<PublisherGetDto>> GetAll()
@@ -63,19 +66,29 @@ public class PublisherService : IPublisherService
 
     public async Task<GenericResponseDto> UpdateAsync(PublisherPutDto publisherPutDto)
     {
-        var existingPublisher = await _repository.GetByIdAsync(publisherPutDto.Id);
-        if (existingPublisher is null)
+        var publisher = await _repository.GetByIdAsync(publisherPutDto.Id);
+        if (publisher is null)
             throw new GenericBadRequestException($"Bu id-li data mövcud deyil: {publisherPutDto.Id} ");
 
         var nameIsExist = await _repository.IsExistAsync(x => x.Id != publisherPutDto.Id && x.Name == publisherPutDto.Name);
         if (nameIsExist)
             throw new GenericIsExistException($"Eyni adlı nəşriyyatçı mövcuddur: {publisherPutDto.Name}");
 
-        existingPublisher.Name = publisherPutDto.Name;
-        existingPublisher.Address = publisherPutDto.Address;
-        existingPublisher.ContactNumber = publisherPutDto.ContactNumber;
-        //var newPublisher = _mapper.Map<Publisher>(publisherPutDto);
-        //_repository.Update(newPublisher);
+        if (publisherPutDto.UserId != null)
+        {
+            var user = await _userManager.FindByIdAsync(publisherPutDto.UserId);
+            if (user == null)
+                throw new GenericNotFoundException("User tapılmadı");
+        }
+        var existingPublisher = await _repository.IsExistAsync(x => x.Id != publisherPutDto.Id && x.UserId == publisherPutDto.UserId);
+        if (existingPublisher)
+            throw new GenericIsExistException("2 nəşriyyatçıda eyni istifadəçi nömrəsi ilə əlaqələndirilə bilməz ");
+
+
+        publisher.Name = publisherPutDto.Name;
+        publisher.Address = publisherPutDto.Address;
+        publisher.ContactNumber = publisherPutDto.ContactNumber;
+        
         await _repository.SaveAsync();
 
         return new GenericResponseDto(200, "Nəşriyyatçı uğurla yeniləndi");

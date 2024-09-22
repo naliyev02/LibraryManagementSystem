@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.BookDtos;
+using LibraryManagementSystem.Business.DTOs.GenericPaginationAndSearchDtos;
 using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Exceptionsı;
+using LibraryManagementSystem.Business.Extensions;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
@@ -30,6 +32,20 @@ public class BookService : IBookService
         var books = _repository.GetAll();
 
         var bookDtos = _mapper.Map<List<BookGetDto>>(books);
+
+        return bookDtos;
+    }
+
+    public async Task<PaginationAndSearchGetDto<BookGetDto>> GetWithPaginationAndSearch(PaginationAndSearchPostDto genericPaginationAndSearchDto)
+    {
+        var books = _repository.GetAll(c => c.Include(x => x.CoverType));
+
+        books = await books.QueryableSearch(genericPaginationAndSearchDto?.Searchs);
+        books = await books.QueryableOrderBy(genericPaginationAndSearchDto?.OrderBy);
+        var pagination = await books.Pagination(genericPaginationAndSearchDto?.Pagination);
+
+
+        var bookDtos = _mapper.Map<PaginationAndSearchGetDto<BookGetDto>>(pagination);
 
         return bookDtos;
     }

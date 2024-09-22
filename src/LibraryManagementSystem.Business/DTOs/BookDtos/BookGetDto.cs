@@ -1,4 +1,6 @@
-﻿namespace LibraryManagementSystem.Business.DTOs.BookDtos;
+﻿using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
+
+namespace LibraryManagementSystem.Business.DTOs.BookDtos;
 
 public class BookGetDto
 {
@@ -6,4 +8,6 @@ public class BookGetDto
     public string Title { get; set; }
     public string ISBN { get; set; }
     public int CopiesAvailable { get; set; }
+
+    public CoverTypeGetDto CoverType { get; set; }
 }

@@ -5,6 +5,8 @@ using LibraryManagementSystem.Business.DTOs.BookDtos;
 using LibraryManagementSystem.Business.DTOs.BookGenreDtos;
 using LibraryManagementSystem.Business.DTOs.CategoryDtos;
 using LibraryManagementSystem.Business.DTOs.CoverTypeDtos;
+using LibraryManagementSystem.Business.DTOs.ExtensionDtos.PaginationDtos;
+using LibraryManagementSystem.Business.DTOs.GenericPaginationAndSearchDtos;
 using LibraryManagementSystem.Business.DTOs.GenreDtos;
 using LibraryManagementSystem.Business.DTOs.LanguageDtos;
 using LibraryManagementSystem.Business.DTOs.PublisherDtos;
@@ -22,6 +24,8 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<AppUser, UserGetDto>().ReverseMap();
         CreateMap<AppRole, RoleGetDto>().ReverseMap();
+
+        
 
 
         CreateMap<CoverType, CoverTypeGetDto>().ReverseMap();
@@ -72,6 +76,7 @@ public class AutoMapperProfile : Profile
         CreateMap<BookGenre, GenreBookGetDto>().ReverseMap();
         CreateMap<BookGenre, BookGenreGetDto>().ReverseMap();
         CreateMap<BookGenre, BookGenrePostDto>().ReverseMap();
+        CreateMap<PaginationAndSearchGetDto<BookGetDto>, PaginationResponseDto<Book>>().ReverseMap();
 
     }
 }

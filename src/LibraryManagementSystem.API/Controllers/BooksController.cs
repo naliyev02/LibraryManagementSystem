@@ -1,11 +1,14 @@
 ﻿using LibraryManagementSystem.Business.DTOs.BookDtos;
+using LibraryManagementSystem.Business.DTOs.ExtensionDtos.OrderByDtos;
+using LibraryManagementSystem.Business.DTOs.ExtensionDtos.SearchDtos;
+using LibraryManagementSystem.Business.DTOs.GenericPaginationAndSearchDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -21,6 +24,12 @@ namespace LibraryManagementSystem.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _service.GetAll());
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetWithPaginationAndSearch(PaginationAndSearchPostDto genericPaginationAndSearchDto)
+        {
+            return Ok(await _service.GetWithPaginationAndSearch(genericPaginationAndSearchDto));
         }
 
         [HttpGet("{id}")]

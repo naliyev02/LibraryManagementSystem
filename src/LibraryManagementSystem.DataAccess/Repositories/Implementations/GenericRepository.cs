@@ -4,6 +4,7 @@ using LibraryManagementSystem.DataAccess.Contexts;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq.Expressions;
 
 namespace LibraryManagementSystem.DataAccess.Repositories.Implementations;
@@ -50,6 +51,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _context.Entry<T>(entity).State = EntityState.Modified;
     }
 
+    
+
     public void Delete(T entity)
     {
         _context.Set<T>().Remove(entity);
@@ -71,6 +74,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
             query = query.Include(include);
         }
         return await query.AnyAsync(expression);
+    }
+
+    public async Task<IDbContextTransaction> BeginTransactionAsync()
+    {
+        return await _context.Database.BeginTransactionAsync();
     }
 
     public async Task<int> SaveAsync()

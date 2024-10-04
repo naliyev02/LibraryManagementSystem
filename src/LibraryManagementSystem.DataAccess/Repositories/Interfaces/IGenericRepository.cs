@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq.Expressions;
 
 namespace LibraryManagementSystem.DataAccess.Repositories.Interfaces;
@@ -13,5 +14,7 @@ public interface IGenericRepository<T>
     void Delete(T entity);
     void SoftDelete(T entity);
     Task<bool> IsExistAsync(Expression<Func<T, bool>> expression, params string[] includes);
+
+    Task<IDbContextTransaction> BeginTransactionAsync();
     Task<int> SaveAsync();
 }

@@ -6,9 +6,11 @@ using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Exceptionsı;
 using LibraryManagementSystem.Business.Extensions;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using LibraryManagementSystem.Business.Utils.Helpers;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Net.NetworkInformation;
 
 namespace LibraryManagementSystem.Business.Services.Implementations;
 
@@ -53,9 +55,9 @@ public class BookService : IBookService
     public async Task<BookGetByIdDto> GetByIdAsync(int id)
     {
         var book = await _repository.GetByIdAsync(id,
-            ct=> ct.Include(x => x.CoverType), 
-            l => l.Include(x => x.Language), 
-            p => p.Include(x => x.Publisher), 
+            ct => ct.Include(x => x.CoverType),
+            l => l.Include(x => x.Language),
+            p => p.Include(x => x.Publisher),
             ba => ba.Include(x => x.BookAuthors).ThenInclude(x => x.Author),
             bg => bg.Include(x => x.BookGenres).ThenInclude(x => x.Genre));
 
@@ -86,6 +88,8 @@ public class BookService : IBookService
 
     public async Task<GenericResponseDto> UpdateAsync(BookPutDto bookPutDto)
     {
+        var transaction = await _repository.BeginTransactionAsync();
+
         var existingBook = await _repository.GetByIdAsync(bookPutDto.Id,
             ct => ct.Include(x => x.CoverType),
             l => l.Include(x => x.Language),
@@ -109,27 +113,26 @@ public class BookService : IBookService
         existingBook.PublishedDate = bookPutDto.PublishedDate;
         existingBook.CopiesAvailable = bookPutDto.CopiesAvailable;
 
-        foreach (var bookAuthor in existingBook.BookAuthors)
-        {
-            _bookAuthorRepository.Delete(bookAuthor);
-        }
+        await RelationshipUpdateHelper.UpdateManyToManyAsync(
+            existingBook.BookAuthors,
+            bookPutDto.Authors,
+            x => x.AuthorId,
+            y => y.AuthorId,
+            id => new BookAuthor { BookId = existingBook.Id, AuthorId = id },
+            _bookAuthorRepository
+        );
 
-        foreach (var bookAuthor in bookPutDto.Authors)
-        {
-            await _bookAuthorRepository.CreateAsync(new BookAuthor { BookId = existingBook.Id, AuthorId = bookAuthor.AuthorId });
-        }
-
-        foreach (var bookGenre in existingBook.BookGenres)
-        {
-            _bookGenreRepository.Delete(bookGenre);
-        }
-
-        foreach (var bookGenre in bookPutDto.Genres)
-        {
-            await _bookGenreRepository.CreateAsync(new BookGenre { BookId = existingBook.Id, GenreId = bookGenre.GenreId });
-        }
+        await RelationshipUpdateHelper.UpdateManyToManyAsync(
+            existingBook.BookGenres,
+            bookPutDto.Genres,
+            x => x.GenreId,
+            y => y.GenreId,
+            id => new BookGenre { BookId = existingBook.Id, GenreId = id },
+            _bookGenreRepository
+        );
 
         await _repository.SaveAsync();
+        await transaction.CommitAsync();
 
         return new GenericResponseDto(200, "Kitab uğurla yeniləndi");
     }

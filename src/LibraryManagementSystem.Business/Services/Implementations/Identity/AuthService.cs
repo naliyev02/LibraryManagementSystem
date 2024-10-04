@@ -5,17 +5,11 @@ using LibraryManagementSystem.Business.DTOs.MailDtos;
 using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
+using LibraryManagementSystem.Business.Utilities.Helpers;
 using LibraryManagementSystem.Business.Utils.Enums;
-using LibraryManagementSystem.Business.Utils.Helpers;
 using LibraryManagementSystem.Core.Entities.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System;
-using System.Security.Principal;
 
 namespace LibraryManagementSystem.Business.Services.Implementations.Identity;
 

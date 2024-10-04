@@ -4,7 +4,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
-namespace LibraryManagementSystem.Business.Utils.Helpers;
+namespace LibraryManagementSystem.Business.Utilities.Helpers;
 
 internal class EmailHelper
 {

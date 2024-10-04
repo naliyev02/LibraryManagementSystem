@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.Business.Utils;
+﻿namespace LibraryManagementSystem.Business.Utilities;
 
 public class Constants
 {

@@ -1,8 +1,8 @@
 ﻿using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
 
-namespace LibraryManagementSystem.Business.Utils.Helpers;
+namespace LibraryManagementSystem.Business.Utilities.Helpers;
 
-public static class RelationshipUpdateHelper
+internal static class RelationshipUpdateHelper
 {
     public static async Task UpdateManyToManyAsync<T, TDto, TRepository> (IEnumerable<T> existingItems, IEnumerable<TDto> newItemDtos, Func<T, int> getItemId, Func<TDto, int> getDtoItemId, Func<int, T> createNewItem, TRepository repository) where TRepository : IGenericRepository<T>
     {

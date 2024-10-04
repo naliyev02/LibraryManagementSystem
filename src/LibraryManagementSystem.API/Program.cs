@@ -5,7 +5,7 @@ using LibraryManagementSystem.Business.Services.Implementations;
 using LibraryManagementSystem.Business.Services.Implementations.Identity;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
-using LibraryManagementSystem.Business.Utils;
+using LibraryManagementSystem.Business.Utilities;
 using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Contexts;
 using LibraryManagementSystem.DataAccess.Repositories.Implementations;
@@ -19,6 +19,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Cryptography;
 using System.Text;
+using LibraryManagementSystem.Business.Services.Implementations.Notification;
+using LibraryManagementSystem.Business.Services.Interfaces.Notification;
 
 namespace LibraryManagementSystem.API
 {
@@ -113,6 +115,11 @@ namespace LibraryManagementSystem.API
             builder.Services.AddScoped<IBookService, BookService>();
 
             builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
+
+            builder.Services.AddTransient<EmailNotificationService>();
+            builder.Services.AddTransient<SmsNotificationService>();
+            builder.Services.AddTransient<PushNotificationService>();
+            builder.Services.AddSingleton<INotificationServiceFactory, NotificationServiceFactory>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>

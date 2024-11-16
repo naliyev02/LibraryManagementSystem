@@ -1,9 +1,11 @@
 ﻿using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.Exceptions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using System.Net;
 
-namespace LibraryManagementSystem.API.Extensions;
+namespace LibraryManagementSystem.Business.Extensions;
 
 public static class ExceptionHandlerExtension
 {
@@ -11,9 +13,9 @@ public static class ExceptionHandlerExtension
     {
         app.UseExceptionHandler(error =>
         {
-            error.Run(async context => 
+            error.Run(async context =>
             {
-                var contextFeature = context.Features.Get<IExceptionHandlerFeature>(); 
+                var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
 
                 int statusCode = (int)HttpStatusCode.InternalServerError;
                 //string message = "Internal Server Error";
@@ -21,7 +23,7 @@ public static class ExceptionHandlerExtension
 
                 if (contextFeature != null)
                 {
-                    
+
                     if (contextFeature.Error is IBaseException)
                     {
                         var exception = (IBaseException)contextFeature.Error;
@@ -31,9 +33,9 @@ public static class ExceptionHandlerExtension
                 }
 
                 context.Response.StatusCode = statusCode;
-                
+
                 await context.Response.WriteAsJsonAsync(new GenericResponseDto(statusCode, message));
-                await context.Response.CompleteAsync(); 
+                await context.Response.CompleteAsync();
             });
         });
 

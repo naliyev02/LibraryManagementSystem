@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LibraryManagementSystem.DataAccess\LibraryManagementSystem.DataAccess.csproj" />
+    <Compile Remove="Validators\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="Validators\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validators\" />
+    <ProjectReference Include="..\LibraryManagementSystem.DataAccess\LibraryManagementSystem.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>

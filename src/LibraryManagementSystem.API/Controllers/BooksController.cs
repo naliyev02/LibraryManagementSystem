@@ -20,6 +20,7 @@ namespace LibraryManagementSystem.API.Controllers
             _service = service;
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -38,6 +39,7 @@ namespace LibraryManagementSystem.API.Controllers
             return Ok(await _service.GetByIdAsync(id));
         }
 
+        [Authorize(Roles = "Author,Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(BookPostDto bookPostDto)
         {
@@ -45,6 +47,7 @@ namespace LibraryManagementSystem.API.Controllers
             return StatusCode(response.StatusCode, response.Message);
         }
 
+        [Authorize(Roles = "Author,Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(BookPutDto bookPutDto)
         {
@@ -52,6 +55,7 @@ namespace LibraryManagementSystem.API.Controllers
             return StatusCode(response.StatusCode, response.Message);
         }
 
+        [Authorize(Roles = "Author,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

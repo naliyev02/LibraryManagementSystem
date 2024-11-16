@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Business.DTOs.RoleDtos;
 using LibraryManagementSystem.Business.Services.Implementations;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.API.Controllers
@@ -21,7 +22,7 @@ namespace LibraryManagementSystem.API.Controllers
             return Ok(await _service.GetAllRolesAsync());
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(RolePostDto rolePostDto)
         {
@@ -29,6 +30,7 @@ namespace LibraryManagementSystem.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string name)
         {

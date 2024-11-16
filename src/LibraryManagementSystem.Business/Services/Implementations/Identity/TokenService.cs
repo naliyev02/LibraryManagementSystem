@@ -40,12 +40,12 @@ public class TokenService : ITokenService
         if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry < DateTime.Now)
             return response;
 
-        await GeneratetokensAndUpdatetSataBase(response, identityUser);
+        await GenerateTokensAndUpdatetSataBase(response, identityUser);
 
         return response;
     }
 
-    public async Task GeneratetokensAndUpdatetSataBase(LoginResponse response, AppUser? user)
+    public async Task GenerateTokensAndUpdatetSataBase(LoginResponse response, AppUser? user)
     {
         var roles = (await _userManager.GetRolesAsync(user)).ToList();
 
@@ -101,11 +101,6 @@ public class TokenService : ITokenService
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
-
-        //var staticKey = _configuration.GetSection("Jwt:SecurityKey").Value;
-        //var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8
-        //    .GetBytes(_configuration["Jwt:SecurityKey"]));
-        //var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
 
         RsaSecurityKey rsaSecurityKey = GetRsaKey();
         var signingCredentials = new SigningCredentials(rsaSecurityKey, SecurityAlgorithms.RsaSha256);

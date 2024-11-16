@@ -28,7 +28,7 @@ namespace LibraryManagementSystem.API.Controllers
             return Ok(await _service.GetByIdAsync(id));
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(LanguagePostDto languagePostDto)
         {
@@ -36,6 +36,7 @@ namespace LibraryManagementSystem.API.Controllers
             return StatusCode(response.StatusCode, response.Message);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(LanguagePutDto languagePutDto)
         {
@@ -43,6 +44,7 @@ namespace LibraryManagementSystem.API.Controllers
             return StatusCode(response.StatusCode, response.Message);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

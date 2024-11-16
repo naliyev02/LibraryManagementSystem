@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Business.DTOs.CategoryDtos;
 using LibraryManagementSystem.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.API.Controllers
@@ -27,6 +28,7 @@ namespace LibraryManagementSystem.API.Controllers
             return Ok(await _service.GetByIdAsync(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CategoryPostDto categoryPostDto)
         {
@@ -34,6 +36,7 @@ namespace LibraryManagementSystem.API.Controllers
             return StatusCode(response.StatusCode, response.Message);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(CategoryPutDto categoryPutDto)
         {
@@ -41,6 +44,7 @@ namespace LibraryManagementSystem.API.Controllers
             return StatusCode(response.StatusCode, response.Message);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

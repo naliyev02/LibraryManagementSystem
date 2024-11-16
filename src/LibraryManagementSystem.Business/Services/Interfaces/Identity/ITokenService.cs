@@ -8,6 +8,6 @@ public interface ITokenService
 {
     //Task<TokenDto> GenerateTokenAsync(AppUser user);
     Task<LoginResponse> RefreshToken(TokenDto model);
-    Task GeneratetokensAndUpdatetSataBase(LoginResponse response, AppUser? user);
+    Task GenerateTokensAndUpdatetSataBase(LoginResponse response, AppUser? user);
 
 }

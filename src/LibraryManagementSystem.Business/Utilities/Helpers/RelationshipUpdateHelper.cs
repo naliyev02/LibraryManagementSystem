@@ -4,10 +4,9 @@ namespace LibraryManagementSystem.Business.Utilities.Helpers;
 
 internal static class RelationshipUpdateHelper
 {
-    public static async Task UpdateManyToManyAsync<T, TDto, TRepository> (IEnumerable<T> existingItems, IEnumerable<TDto> newItemDtos, Func<T, int> getItemId, Func<TDto, int> getDtoItemId, Func<int, T> createNewItem, TRepository repository) where TRepository : IGenericRepository<T>
+    public static async Task UpdateManyToManyAsync<T, TRepository>(IEnumerable<T> existingItems, IEnumerable<int> newItemIds, Func<T, int> getItemId, Func<int, T> createNewItem, TRepository repository) where TRepository : IGenericRepository<T>
     {
         var existingItemIds = existingItems.Select(getItemId).ToList();
-        var newItemIds = newItemDtos.Select(getDtoItemId).ToList();
 
         var itemsToRemove = existingItems.Where(x => !newItemIds.Contains(getItemId(x))).ToList();
         var itemsToAdd = newItemIds.Where(id => !existingItemIds.Contains(id)).ToList();

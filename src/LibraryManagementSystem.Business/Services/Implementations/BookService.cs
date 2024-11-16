@@ -114,18 +114,16 @@ public class BookService : IBookService
 
         await RelationshipUpdateHelper.UpdateManyToManyAsync(
             existingBook.BookAuthors,
-            bookPutDto.Authors,
+            bookPutDto.Authors.Select(x => x.AuthorId),
             x => x.AuthorId,
-            y => y.AuthorId,
             id => new BookAuthor { BookId = existingBook.Id, AuthorId = id },
             _bookAuthorRepository
         );
 
         await RelationshipUpdateHelper.UpdateManyToManyAsync(
             existingBook.BookGenres,
-            bookPutDto.Genres,
+            bookPutDto.Genres.Select(x => x.GenreId),
             x => x.GenreId,
-            y => y.GenreId,
             id => new BookGenre { BookId = existingBook.Id, GenreId = id },
             _bookGenreRepository
         );

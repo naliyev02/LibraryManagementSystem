@@ -42,10 +42,13 @@ public class AuthService : IAuthService
         if (!isSuccess)
             throw new GenericNotFoundException("Invalid username or password");
 
+        bool isUserConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+        if (!isUserConfirmed)
+            throw new GenericNotFoundException("The user has not verified the account");
 
         LoginResponse response = new LoginResponse();
 
-        await _tokenService.GeneratetokensAndUpdatetSataBase(response,user);
+        await _tokenService.GenerateTokensAndUpdatetSataBase(response,user);
 
         return response;
     }
@@ -69,9 +72,9 @@ public class AuthService : IAuthService
 
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-        var verifyUrl = $"https://localhost:7211/Users/Register?{user.Id}&{token}";
+        var verifyUrl = $"https://localhost:7211/Users/Confirm?{user.Id}&{token}";
 
-        //https://localhost:7021/Users/Register?userId&Token //numune olaraq yazilib
+        //https://localhost:7021/Users/Confirm?userId&Token //numune olaraq yazilib
 
         string body = await this.GetEmailTemplateAsync(verifyUrl);
 

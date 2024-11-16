@@ -1,26 +1,15 @@
-using LibraryManagementSystem.API.Extensions;
 using LibraryManagementSystem.API.Middlewares;
+using LibraryManagementSystem.Business.Extensions;
 using LibraryManagementSystem.Business.Mappers;
-using LibraryManagementSystem.Business.Services.Implementations;
-using LibraryManagementSystem.Business.Services.Implementations.Identity;
-using LibraryManagementSystem.Business.Services.Interfaces;
-using LibraryManagementSystem.Business.Services.Interfaces.Identity;
 using LibraryManagementSystem.Business.Utilities;
 using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Contexts;
-using LibraryManagementSystem.DataAccess.Repositories.Implementations;
-using LibraryManagementSystem.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Cryptography;
-using System.Text;
-using LibraryManagementSystem.Business.Services.Implementations.Notification;
-using LibraryManagementSystem.Business.Services.Interfaces.Notification;
 
 namespace LibraryManagementSystem.API
 {
@@ -29,8 +18,6 @@ namespace LibraryManagementSystem.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            
 
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
@@ -77,8 +64,6 @@ namespace LibraryManagementSystem.API
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey  = new RsaSecurityKey(rsaKey),
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration
-                    //    ["Jwt:SecurityKey"])),
                     LifetimeValidator = (_, expires, _, _) => expires != null ? expires > DateTime.UtcNow : false
                 };
             });
@@ -86,40 +71,8 @@ namespace LibraryManagementSystem.API
 
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IRoleService, RoleService>();
-            builder.Services.AddScoped<ITokenService, TokenService>();
-            builder.Services.AddScoped<IAuthService, AuthService>();
-
-            builder.Services.AddScoped<ICoverTypeRepository, CoverTypeRepository>();
-            builder.Services.AddScoped<ICoverTypeService, CoverTypeService>();
-
-            builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
-            builder.Services.AddScoped<ILanguageService, LanguageService>();
-
-            builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
-            builder.Services.AddScoped<IPublisherService, PublisherService>();
-
-            builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-            builder.Services.AddScoped<IAuthorService, AuthorService>();
-
-            builder.Services.AddScoped<IBookAuthorRepository, BookAuthorRepository>();
-
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
-
-            builder.Services.AddScoped<IGenreRepository, GenreRepository>();
-            builder.Services.AddScoped<IGenreService, GenreService>();
-
-            builder.Services.AddScoped<IBookRepository, BookRepository>();
-            builder.Services.AddScoped<IBookService, BookService>();
-
-            builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
-
-            builder.Services.AddTransient<EmailNotificationService>();
-            builder.Services.AddTransient<SmsNotificationService>();
-            builder.Services.AddTransient<PushNotificationService>();
-            builder.Services.AddSingleton<INotificationServiceFactory, NotificationServiceFactory>();
+            builder.Services.AddRepositoriesService();
+            builder.Services.AddServicesService();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>

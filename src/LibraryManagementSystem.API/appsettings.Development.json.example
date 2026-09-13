@@ -1,0 +1,12 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=LibraryManagementSystemDb;Username=postgres;Password=YOUR_PASSWORD"
+  },
+  "Jwt": {
+    "SecurityKey": "replace-with-a-long-random-string"
+  },
+  "MailSettings": {
+    "Mail": "your-mail@gmail.com",
+    "Password": "your-app-password"
+  }
+}

@@ -358,3 +358,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Local secrets (use User Secrets / env vars instead)
+**/appsettings.Development.json
+**/appsettings.Local.json

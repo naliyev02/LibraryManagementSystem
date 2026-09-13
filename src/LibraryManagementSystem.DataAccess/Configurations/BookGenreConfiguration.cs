@@ -12,7 +12,7 @@ public class BookGenreConfiguration : IEntityTypeConfiguration<BookGenre>
         //builder.HasKey(x => new { x.BookId, x.GenreId });
 
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).UseIdentityColumn();
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.Book).WithMany(y => y.BookGenres).HasForeignKey(x => x.BookId);
         builder.HasOne(x => x.Genre).WithMany(y => y.BookGenres).HasForeignKey(x => x.GenreId);

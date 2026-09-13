@@ -10,7 +10,7 @@ internal class BookAuthorConfiguration : IEntityTypeConfiguration<BookAuthor>
     public void Configure(EntityTypeBuilder<BookAuthor> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).UseIdentityColumn();
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.Book).WithMany(y => y.BookAuthors).HasForeignKey(x => x.BookId);
         builder.HasOne(x => x.Author).WithMany(y => y.BookAuthors).HasForeignKey(x => x.AuthorId);

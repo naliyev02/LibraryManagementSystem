@@ -3,7 +3,6 @@ using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.UserDtos;
 using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Services.Interfaces;
-using LibraryManagementSystem.Business.Utils.Enums;
 using LibraryManagementSystem.Core.Entities.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,12 +13,14 @@ namespace LibraryManagementSystem.Business.Services.Implementations;
 public class UserService : IUserService
 {
     private readonly UserManager<AppUser> _userManager;
+    private readonly RoleManager<AppRole> _roleManager;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IMapper _mapper;
 
-    public UserService(UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+    public UserService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IHttpContextAccessor httpContextAccessor, IMapper mapper)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
         _httpContextAccessor = httpContextAccessor;
         _mapper = mapper;
     }
@@ -77,6 +78,9 @@ public class UserService : IUserService
 
         foreach (var role in addRoleToUserDto.Roles)
         {
+            if (!await _roleManager.RoleExistsAsync(role))
+                throw new GenericNotFoundException($"{role} rolu tapılmadı");
+
             var result = await _userManager.AddToRoleAsync(user, role);
             if (!result.Succeeded)
                 throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
@@ -93,10 +97,15 @@ public class UserService : IUserService
             throw new Exception("İstifadəçi tapılmadı.");
         }
 
-        await _userManager.RemoveFromRolesAsync(user,Enum.GetNames(typeof(RoleType)));
+        var existingRoles = await _userManager.GetRolesAsync(user);
+        if (existingRoles.Count > 0)
+            await _userManager.RemoveFromRolesAsync(user, existingRoles);
 
         foreach (var role in updateRoleToUserDto.Roles)
         {
+            if (!await _roleManager.RoleExistsAsync(role))
+                throw new GenericNotFoundException($"{role} rolu tapılmadı");
+
             var result = await _userManager.AddToRoleAsync(user, role);
             if (!result.Succeeded)
                 throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));

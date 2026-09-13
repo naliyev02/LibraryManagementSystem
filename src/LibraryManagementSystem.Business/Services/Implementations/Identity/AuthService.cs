@@ -6,7 +6,6 @@ using LibraryManagementSystem.Business.Exceptions;
 using LibraryManagementSystem.Business.Services.Interfaces;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
 using LibraryManagementSystem.Business.Utilities.Helpers;
-using LibraryManagementSystem.Business.Utils.Enums;
 using LibraryManagementSystem.Core.Entities.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -16,16 +15,16 @@ namespace LibraryManagementSystem.Business.Services.Implementations.Identity;
 public class AuthService : IAuthService
 {
     private readonly UserManager<AppUser> _userManager;
+    private readonly RoleManager<AppRole> _roleManager;
     private readonly ITokenService _tokenService;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IUserService _userService;
     private readonly IMapper _mapper;
-    
 
-
-    public AuthService(UserManager<AppUser> userManager, ITokenService tokenService, IWebHostEnvironment webHostEnvironment, IUserService userService, IMapper mapper)
+    public AuthService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, ITokenService tokenService, IWebHostEnvironment webHostEnvironment, IUserService userService, IMapper mapper)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
         _tokenService = tokenService;
         _webHostEnvironment = webHostEnvironment;
         _userService = userService;
@@ -68,7 +67,7 @@ public class AuthService : IAuthService
         if (!result.Succeeded)
             throw new Exception("User registration failed: " + string.Join(", ", result.Errors.Select(e => e.Description)));
 
-        await _userManager.AddToRoleAsync(user, RoleType.Member.ToString());
+        await AssignRoleFromDbAsync(user, "Member");
 
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -176,5 +175,16 @@ public class AuthService : IAuthService
         streamReader.Close();
 
         return result;
+    }
+
+    private async Task AssignRoleFromDbAsync(AppUser user, string roleName)
+    {
+        var role = await _roleManager.FindByNameAsync(roleName);
+        if (role is null)
+            throw new GenericNotFoundException($"{roleName} rolu tapılmadı");
+
+        var result = await _userManager.AddToRoleAsync(user, role.Name);
+        if (!result.Succeeded)
+            throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
     }
 }

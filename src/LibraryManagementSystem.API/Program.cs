@@ -1,6 +1,7 @@
 using LibraryManagementSystem.API.Middlewares;
 using LibraryManagementSystem.Business.Extensions;
 using LibraryManagementSystem.Business.Mappers;
+using LibraryManagementSystem.Business.Seed;
 using LibraryManagementSystem.Business.Utilities;
 using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Contexts;
@@ -15,8 +16,10 @@ namespace LibraryManagementSystem.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers()
@@ -26,7 +29,7 @@ namespace LibraryManagementSystem.API
                 });
 
             builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddIdentity<AppUser, AppRole>(options =>
             {
@@ -113,6 +116,11 @@ namespace LibraryManagementSystem.API
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                await DatabaseSeeder.SeedAsync(scope.ServiceProvider);
+            }
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -134,7 +142,7 @@ namespace LibraryManagementSystem.API
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

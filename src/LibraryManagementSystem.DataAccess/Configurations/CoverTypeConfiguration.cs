@@ -9,7 +9,7 @@ public class CoverTypeConfiguration : IEntityTypeConfiguration<CoverType>
     public void Configure(EntityTypeBuilder<CoverType> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).UseIdentityColumn();
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
         builder.HasMany(x => x.Books).WithOne(y => y.CoverType).HasForeignKey(y => y.CoverTypeId);

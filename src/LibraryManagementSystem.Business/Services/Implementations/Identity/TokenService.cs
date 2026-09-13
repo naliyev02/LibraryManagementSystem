@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Business.DTOs.Identity.AuthDtos;
+using LibraryManagementSystem.Business.DTOs.Identity.AuthDtos;
 using LibraryManagementSystem.Business.DTOs.Identity.ClaimDtos;
 using LibraryManagementSystem.Business.DTOs.Identity.TokenDtos;
 using LibraryManagementSystem.Business.Services.Interfaces.Identity;
@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace LibraryManagementSystem.Business.Services.Implementations.Identity;
 
@@ -36,8 +35,7 @@ public class TokenService : ITokenService
 
         var identityUser = await _userManager.FindByNameAsync(principal.Identity.Name);
 
-
-        if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry < DateTime.Now)
+        if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry < DateTime.UtcNow)
             return response;
 
         await GenerateTokensAndUpdatetSataBase(response, identityUser);
@@ -54,7 +52,7 @@ public class TokenService : ITokenService
         response.RefreshToken = this.GenerateRefreshToken();
 
         user.RefreshToken = response.RefreshToken;
-        user.RefreshTokenExpiry = DateTime.Now.AddHours(12);
+        user.RefreshTokenExpiry = DateTime.UtcNow.AddHours(12);
 
         await _userManager.SetAuthenticationTokenAsync(user, "Local", "Access", response.JwtToken);
         await _userManager.UpdateAsync(user);
@@ -73,20 +71,25 @@ public class TokenService : ITokenService
 
     private ClaimsPrincipal? GetTokenPrincipal(string token)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:SecurityKey").Value));
-
-        //var securityKey = GetRsaKey();
-
-        var validation = new TokenValidationParameters
+        try
         {
-            IssuerSigningKey = securityKey,
-            ValidateLifetime = false,
-            ValidateActor = false,
-            ValidateIssuer = false,
-            ValidateAudience = false,
-        };
+            var validation = new TokenValidationParameters
+            {
+                IssuerSigningKey = GetRsaPublicKey(),
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = false,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidIssuer = _configuration["Jwt:Issuer"],
+                ValidAudience = _configuration["Jwt:Audience"],
+            };
 
-        return new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
+            return new JwtSecurityTokenHandler().ValidateToken(token, validation, out _);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     private string GenerateTokenString(ClaimDto claimDto)
@@ -102,8 +105,7 @@ public class TokenService : ITokenService
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
 
-        RsaSecurityKey rsaSecurityKey = GetRsaKey();
-        var signingCredentials = new SigningCredentials(rsaSecurityKey, SecurityAlgorithms.RsaSha256);
+        var signingCredentials = new SigningCredentials(GetRsaPrivateKey(), SecurityAlgorithms.RsaSha256);
 
         var securityToken = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
@@ -118,13 +120,20 @@ public class TokenService : ITokenService
         return tokenString;
     }
 
-    private RsaSecurityKey GetRsaKey()
+    private RsaSecurityKey GetRsaPrivateKey()
     {
         var rsaKey = RSA.Create();
         string xmlKey = File.ReadAllText(_configuration.GetSection("Jwt:PrivateKeyPath").Value);
         rsaKey.FromXmlString(xmlKey);
-        var rsaSecurityKey = new RsaSecurityKey(rsaKey);
-        return rsaSecurityKey;
+        return new RsaSecurityKey(rsaKey);
+    }
+
+    private RsaSecurityKey GetRsaPublicKey()
+    {
+        var rsaKey = RSA.Create();
+        string xmlKey = File.ReadAllText(_configuration.GetSection("Jwt:PublicKeyPath").Value);
+        rsaKey.FromXmlString(xmlKey);
+        return new RsaSecurityKey(rsaKey);
     }
 
 }

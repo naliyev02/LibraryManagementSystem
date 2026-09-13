@@ -8,5 +8,8 @@
   "MailSettings": {
     "Mail": "your-mail@gmail.com",
     "Password": "your-app-password"
+  },
+  "App": {
+    "FrontendUrl": "https://localhost:7211"
   }
 }

@@ -1,10 +1,11 @@
-﻿using LibraryManagementSystem.Core.Entities;
+using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Entities.Common;
 using LibraryManagementSystem.Core.Entities.Identity;
 using LibraryManagementSystem.DataAccess.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Security.Claims;
 
 namespace LibraryManagementSystem.DataAccess.Contexts;
@@ -33,9 +34,9 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(BookConfiguration).Assembly);
 
-        modelBuilder.Entity<Book>().HasQueryFilter(p => !p.IsDeleted);
-
         base.OnModelCreating(modelBuilder);
+
+        ApplySoftDeleteQueryFilters(modelBuilder);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -63,5 +64,23 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>
         }
 
         return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private static void ApplySoftDeleteQueryFilters(ModelBuilder modelBuilder)
+    {
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes().ToList())
+        {
+            if (!typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+                continue;
+
+            var parameter = Expression.Parameter(entityType.ClrType, "e");
+            var filter = Expression.Lambda(
+                Expression.Equal(
+                    Expression.Property(parameter, nameof(BaseEntity.IsDeleted)),
+                    Expression.Constant(false)),
+                parameter);
+
+            modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
+        }
     }
 }

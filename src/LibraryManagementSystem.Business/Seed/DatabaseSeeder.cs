@@ -62,6 +62,15 @@ public static class DatabaseSeeder
                 throw new InvalidOperationException(
                     $"Admin rolu istifadəçiyə verilə bilmədi: {FormatErrors(addRoleResult)}");
         }
+
+        if (!admin.EmailConfirmed)
+        {
+            admin.EmailConfirmed = true;
+            var confirmResult = await userManager.UpdateAsync(admin);
+            if (!confirmResult.Succeeded)
+                throw new InvalidOperationException(
+                    $"Admin email təsdiqi yenilənə bilmədi: {FormatErrors(confirmResult)}");
+        }
     }
 
     private static string FormatErrors(IdentityResult result)

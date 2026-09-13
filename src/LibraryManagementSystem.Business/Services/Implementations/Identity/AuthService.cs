@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LibraryManagementSystem.Business.DTOs;
 using LibraryManagementSystem.Business.DTOs.Identity.AuthDtos;
 using LibraryManagementSystem.Business.DTOs.MailDtos;
@@ -9,6 +9,7 @@ using LibraryManagementSystem.Business.Utilities.Helpers;
 using LibraryManagementSystem.Core.Entities.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace LibraryManagementSystem.Business.Services.Implementations.Identity;
 
@@ -20,8 +21,9 @@ public class AuthService : IAuthService
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IUserService _userService;
     private readonly IMapper _mapper;
+    private readonly IConfiguration _configuration;
 
-    public AuthService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, ITokenService tokenService, IWebHostEnvironment webHostEnvironment, IUserService userService, IMapper mapper)
+    public AuthService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, ITokenService tokenService, IWebHostEnvironment webHostEnvironment, IUserService userService, IMapper mapper, IConfiguration configuration)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -29,6 +31,7 @@ public class AuthService : IAuthService
         _webHostEnvironment = webHostEnvironment;
         _userService = userService;
         _mapper = mapper;
+        _configuration = configuration;
     }
 
     public async Task<LoginResponse> LoginAsync(LoginDto authDto)
@@ -71,16 +74,14 @@ public class AuthService : IAuthService
 
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-        var verifyUrl = $"https://localhost:7211/Users/Confirm?{user.Id}&{token}";
-
-        //https://localhost:7021/Users/Confirm?userId&Token //numune olaraq yazilib
+        var verifyUrl = BuildAppUrl("confirm-register", user.Id, token);
 
         string body = await this.GetEmailTemplateAsync(verifyUrl);
 
         MailPostDto mailPostDto = new()
         {
             ToEmail = user.Email,
-            Subject = "Reset your password",
+            Subject = "Confirm your account",
             Body = body
         };
 
@@ -110,9 +111,7 @@ public class AuthService : IAuthService
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        var verifyUrl = $"https://localhost:7211/Users/ResetPassword?{user.Id}&{token}";
-
-        //https://localhost:7021/Users/ResetPassword?userId&Token //numune olaraq yazilib
+        var verifyUrl = BuildAppUrl("reset-password", user.Id, token);
 
         string body = await this.GetEmailTemplateAsync(verifyUrl);
 
@@ -186,5 +185,13 @@ public class AuthService : IAuthService
         var result = await _userManager.AddToRoleAsync(user, role.Name);
         if (!result.Succeeded)
             throw new Exception("Rolu əlavə etmək mümkün olmadı: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+    }
+
+    private string BuildAppUrl(string path, string userId, string token)
+    {
+        var origin = (_configuration["App:FrontendUrl"] ?? _configuration["Jwt:Issuer"] ?? "https://localhost:7211")
+            .TrimEnd('/');
+
+        return $"{origin}/{path}?userId={Uri.EscapeDataString(userId)}&token={Uri.EscapeDataString(token)}";
     }
 }
